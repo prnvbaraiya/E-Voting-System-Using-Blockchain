@@ -1,0 +1,72 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #e7ebf0;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  min-width: 250px;
+  min-height: 100vh;
+  overflow: auto;
+  background-color: #2f4050;
+}
+
+.website__details {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.website__logo {
+  padding: 5px;
+  width: 50px;
+  align-items: center;
+}
+
+.website__title {
+  color: white;
+  font-size: 25px;
+}
+
+.sidebar__items {
+  width: 100%;
+  height: auto;
+  padding: 0;
+  background-color: #2f4050;
+}
+
+.sidebar__items .row {
+  width: 100%;
+  height: 60px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+}
+
+.sidebar__items .row:hover {
+  cursor: pointer;
+  background-color: #293846;
+}
+
+.sidebar__items #active {
+  background-color: #293846;
+}
+
+.row #icon {
+  font-size: 30px;
+  width: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.row #title {
+  width: 70%;
+}

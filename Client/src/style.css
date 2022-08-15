@@ -1,0 +1,27 @@
+.admin__content {
+  padding: 0px 20px;
+  width: 100%;
+}
+
+.content__header {
+  min-height: 70px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content__header__button {
+  float: right;
+}
+
+.content__header__path {
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  padding-top: 20px;
+}
