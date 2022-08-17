@@ -36,7 +36,7 @@ const ViewCandidate = () => {
       field: "dob",
       headerName: "Date of Birth",
       valueGetter: (params) => dateConverter(params.row.dob),
-      width: 200,
+      width: 120,
       hide: true,
     },
     {
@@ -47,7 +47,7 @@ const ViewCandidate = () => {
     {
       field: "time",
       headerName: "Updated At",
-      width: 200,
+      width: 120,
       valueGetter: (params) => dateConverter(params.row.updatedAt),
     },
   ];
@@ -57,7 +57,6 @@ const ViewCandidate = () => {
       let res = await axios.get("http://localhost:1322/api/auth/candidates");
       let users = res.data;
       setData(users);
-      console.log(users);
     }
     getData();
   }, []);

@@ -23,7 +23,7 @@ const CandidateSchema = new mongoose.Schema(
       required: true,
     },
     join: {
-      type: String,
+      type: Number,
       required: true,
     },
     location: {

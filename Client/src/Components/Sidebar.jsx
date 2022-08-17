@@ -1,5 +1,9 @@
 import "../css/SidebarStyle.css";
-import { SidebarData, WebsiteDetails } from "../Data/SidebarData";
+import {
+  SidebarData,
+  WebsiteDetails,
+  hidingSysmbole,
+} from "../Data/SidebarData";
 import { Link, Outlet } from "react-router-dom";
 
 const Sidebar = () => {

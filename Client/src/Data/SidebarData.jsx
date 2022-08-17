@@ -3,6 +3,8 @@ import { AiOutlineDashboard, AiOutlineUser } from "react-icons/ai";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import PeopleIcon from "@mui/icons-material/People";
 import LoopIcon from "@mui/icons-material/Loop";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import logo from "../logo.svg";
 
 export const WebsiteDetails = {
@@ -41,4 +43,14 @@ export const SidebarData = [
     link: "/admin/phase",
     id: "",
   },
+  {
+    title: "Logout",
+    icon: <LogoutIcon />,
+    link: "/admin/logout",
+    id: "",
+  },
 ];
+
+export const hidingSysmbole = {
+  icon: <BsFillArrowLeftCircleFill />,
+};
