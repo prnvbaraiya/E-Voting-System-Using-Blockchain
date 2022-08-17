@@ -23,7 +23,6 @@ const ViewElection = () => {
       let res = await axios.get("http://localhost:1322/api/auth/elections");
       let users = res.data;
       setData(users);
-      console.log(users);
     }
     getData();
   }, []);

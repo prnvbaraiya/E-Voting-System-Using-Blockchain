@@ -40,7 +40,6 @@ const ViewUser = () => {
       let res = await axios.get("http://localhost:1322/api/auth/users");
       let users = res.data;
       setData(users);
-      console.log(users);
     }
     getData();
   }, []);

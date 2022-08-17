@@ -83,18 +83,6 @@ export default function AddCandidate() {
                   <ErrorMessage />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  {/* <label>Politices Join From</label>
-                  <input
-                    type="number"
-                    min="1900"
-                    max="2099"
-                    value={join}
-                    onChange={(e) => {
-                      setJoin(e.target.value);
-                    }}
-                    step="1"
-                    name="join"
-                  /> */}
                   <TextField
                     type="number"
                     label="Politices Join From (Year)"

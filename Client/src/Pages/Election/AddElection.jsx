@@ -6,6 +6,7 @@ import InputTags from "../../Components/Form/InputTags";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ContentHeader from "../../Components/ContentHeader";
 
 const AddElection = () => {
   const navigate = useNavigate();
@@ -33,10 +34,7 @@ const AddElection = () => {
   return (
     <>
       <div className="admin__content">
-        <div className="content__header">
-          <div className="content__header__path">{"  "} PATH</div>
-        </div>
-        <hr />
+        <ContentHeader />
         <div className="content">
           <form onSubmit={handleSubmit} method="POST">
             <Paper elevation={3}>
