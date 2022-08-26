@@ -8,12 +8,8 @@ import axios from "axios";
 const ViewElection = () => {
   const [data, setData] = useState([]);
 
-  const columnVisibilityModel = {
-    _id: false,
-  };
-
   const columns = [
-    { field: "_id", headerName: "Id", width: 220 },
+    { field: "_id", headerName: "Id", width: 220, hide: true },
     { field: "name", headerName: "Name", width: 220 },
     { field: "candidates", headerName: "Candidates", width: 220 },
   ];
@@ -33,11 +29,7 @@ const ViewElection = () => {
         <ContentHeader title="Add Election" link="/admin/election/add" />
         <div className="content" style={{ paddingBottom: "20px" }}>
           <Card variant="outlined">
-            <BasicTable
-              columns={columns}
-              rows={data}
-              columnVisibilityModel={columnVisibilityModel}
-            />
+            <BasicTable columns={columns} rows={data} />
           </Card>
         </div>
       </div>

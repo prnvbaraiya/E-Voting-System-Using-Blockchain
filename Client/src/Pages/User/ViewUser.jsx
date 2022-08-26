@@ -13,7 +13,7 @@ const ViewUser = () => {
   };
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 220 },
+    { field: "_id", headerName: "ID", width: 220, hide: true },
     { field: "username", headerName: "Username", width: 150 },
     { field: "email", headerName: "Email", width: 300 },
     { field: "location", headerName: "Location", width: 200 },

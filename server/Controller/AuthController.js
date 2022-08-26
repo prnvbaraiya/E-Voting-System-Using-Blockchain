@@ -130,6 +130,16 @@ export const candidates = {
   },
 };
 
+export const phase = {
+  controller: async (req, res) => {
+    const data = await Election.find({
+      currentPhase: "init",
+    });
+    console.log(data);
+    return res.status(201).send(data);
+  },
+};
+
 //Election
 
 export const electionRegister = {

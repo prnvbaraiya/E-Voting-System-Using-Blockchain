@@ -35,11 +35,7 @@ const PageNotFound = () => {
               </p>
             </div>
             <div className="error__nav e-nav">
-              <a
-                href="/admin/dashboard"
-                target="_blanck"
-                className="e-nav__link"
-              >
+              <a href="/admin" target="_blanck" className="e-nav__link">
                 {" "}
               </a>
             </div>

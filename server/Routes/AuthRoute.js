@@ -7,6 +7,7 @@ import {
   elections,
   candidateRegister,
   candidates,
+  phase,
 } from "../Controller/AuthController.js";
 
 const router = Router();
@@ -23,6 +24,7 @@ router.post(
   electionRegister.validator,
   electionRegister.controller
 );
+router.get("/phase", phase.controller);
 router.get("/candidates", candidates.controller);
 router.get("/elections", elections.controller);
 router.get("/users", users.controller);

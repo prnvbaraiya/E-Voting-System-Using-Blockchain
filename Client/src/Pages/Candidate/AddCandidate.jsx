@@ -17,13 +17,12 @@ export default function AddCandidate() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(maxDate);
     const username = e.target.username.value;
     const firstName = e.target.fname.value;
     const lastName = e.target.lname.value;
     const dob = e.target.dob.value;
     const qualification = e.target.qualification.value;
-    const join = e.target.join.value;
+    console.log(join);
     const location = e.target.location.value;
     const description = e.target.description.value;
     const data = {

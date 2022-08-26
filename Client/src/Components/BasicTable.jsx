@@ -8,7 +8,6 @@ export default function DataTable(props) {
         getRowId={(row) => row._id}
         autoHeight
         rows={props.rows}
-        columnVisibilityModel={props.columnVisibilityModel}
         pageSize={25}
         columns={props.columns}
         checkboxSelection={props.checkboxSelection ? false : true}
