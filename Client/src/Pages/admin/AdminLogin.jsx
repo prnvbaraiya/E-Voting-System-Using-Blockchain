@@ -34,7 +34,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Login() {
+export default function AdminLogin() {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();

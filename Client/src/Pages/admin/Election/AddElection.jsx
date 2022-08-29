@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import InputField from "../../Components/Form/InputField";
-import InputTags from "../../Components/Form/InputTags";
+import InputField from "../../../Components/Form/InputField";
+import InputTags from "../../../Components/Form/InputTags";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import ContentHeader from "../../Components/ContentHeader";
+import ContentHeader from "../../../Components/ContentHeader";
 
 const AddElection = () => {
   const navigate = useNavigate();

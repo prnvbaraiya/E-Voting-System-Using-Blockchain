@@ -1,11 +1,11 @@
 import React from "react";
 import { Button, Typography, Box, Grid, Paper } from "@mui/material";
-import InputField from "../../Components/Form/InputField";
+import InputField from "../../../Components/Form/InputField";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ErrorMessage } from "../../Components/Form/ErrorMessage";
+import { ErrorMessage } from "../../../Components/Form/ErrorMessage";
 import axios from "axios";
-import ContentHeader from "../../Components/ContentHeader";
+import ContentHeader from "../../../Components/ContentHeader";
 
 const AddUser = () => {
   const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import React from "react";
-import ContentHeader from "../../Components/ContentHeader";
+import ContentHeader from "../../../Components/ContentHeader";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import DashboardCard from "../../Components/DashboardCard";
+import DashboardCard from "../../../Components/DashboardCard";
 
 const ViewDashboard = () => {
   const [users, setUsers] = useState(0);

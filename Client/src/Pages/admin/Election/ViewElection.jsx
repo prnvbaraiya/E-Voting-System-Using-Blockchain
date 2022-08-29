@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import BasicTable from "../../Components/BasicTable";
-import ContentHeader from "../../Components/ContentHeader";
+import BasicTable from "../../../Components/BasicTable";
+import ContentHeader from "../../../Components/ContentHeader";
 import Card from "@mui/material/Card";
-import "../../style.css";
+import "../../../style.css";
 import axios from "axios";
 
 const ViewElection = () => {
