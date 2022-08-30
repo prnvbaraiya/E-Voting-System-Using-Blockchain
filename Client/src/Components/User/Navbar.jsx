@@ -1,62 +1,49 @@
-import React, { useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Toolbar, Typography, AppBar, IconButton } from "@mui/material";
+import React from "react";
+import { Toolbar, Typography, AppBar, Grid } from "@mui/material";
+import HowToVoteOutlinedIcon from "@mui/icons-material/HowToVoteOutlined";
+import { NavbarData } from "../../Data/NavbarData";
+import { Link } from "react-router-dom";
 
 // react.school/material-ui
 
 export default function ButtonAppBar() {
-  const [example, setExample] = useState("primary");
-  const isCustomColor = example === "customColor";
-  const isCustomHeight = example === "customHeight";
+  const style = {
+    logo: {
+      fontSize: 35,
+      paddingRight: 10,
+    },
+    navLink: {
+      fontSize: 20,
+      color: "white",
+    },
+  };
+
   return (
-    <React.Fragment>
-      <AppBar color={isCustomColor || isCustomHeight ? "primary" : example}>
+    <>
+      <AppBar>
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6">AppBar</Typography>
-          <IconButton color="inherit" onClick={() => setExample("default")}>
-            1
-          </IconButton>
-          <IconButton color="inherit" onClick={() => setExample("primary")}>
-            2
-          </IconButton>
-          <IconButton color="inherit" onClick={() => setExample("secondary")}>
-            3
-          </IconButton>
-          <IconButton color="inherit" onClick={() => setExample("transparent")}>
-            4
-          </IconButton>
-          <IconButton color="inherit" onClick={() => setExample("customColor")}>
-            5
-          </IconButton>
-          <IconButton
-            color="inherit"
-            onClick={() => setExample("customHeight")}
-          >
-            6
-          </IconButton>
+          <Grid container spacing={0}>
+            <Grid item xs={6} display="flex">
+              <HowToVoteOutlinedIcon style={style.logo} />
+              <Typography variant="h5">Voting System</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container gap={6} justifyContent="flex-end">
+                {NavbarData.map((item, index) => {
+                  return (
+                    <Link to={item.link}>
+                      <Typography style={style.navLink} link>
+                        {item.title}
+                      </Typography>
+                    </Link>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Toolbar />
-      <Typography>
-        This content doesn't appear below the AppBar because we added an
-        additional Toolbar component above, this is the recommended approach.{" "}
-      </Typography>
-      <Typography>
-        Change the AppBar example by clicking on one of the numbers above.
-      </Typography>
-      <Typography>
-        <ul>
-          <li> 1: color: default </li>
-          <li> 2: color: primary </li>
-          <li> 3: color: secondary </li>
-          <li> 4: color: transparent </li>
-          <li> 5: custom color class </li>
-          <li> 6: custom height class </li>
-        </ul>
-      </Typography>
-    </React.Fragment>
+    </>
   );
 }

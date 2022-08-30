@@ -1,11 +1,10 @@
+import { Toolbar } from "@mui/material";
 import React from "react";
-import Navbar from "../Components/User/Navbar";
 
 const Home = () => {
-  const pages = ["home", "Election", "Login"];
   return (
     <div>
-      <Navbar />
+      <Toolbar>Home Page</Toolbar>
     </div>
   );
 };
