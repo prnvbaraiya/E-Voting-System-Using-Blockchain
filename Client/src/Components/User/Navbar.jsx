@@ -31,7 +31,7 @@ export default function ButtonAppBar() {
               <Grid container gap={6} justifyContent="flex-end">
                 {NavbarData.map((item, index) => {
                   return (
-                    <Link to={item.link}>
+                    <Link to={item.link} key={index}>
                       <Typography style={style.navLink} link>
                         {item.title}
                       </Typography>

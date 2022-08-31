@@ -130,6 +130,19 @@ export const candidates = {
   },
 };
 
+export const getCandidate = {
+  validator: async (req, res, next) => {
+    next();
+  },
+  controller: async (req, res) => {
+    const data = await Candidate.findOne({ username: req.params.username });
+    if (data == null) {
+      return res.status(500).send("Candidate Not Found");
+    }
+    return res.status(201).send(data);
+  },
+};
+
 export const phase = {
   controller: async (req, res) => {
     const data = await Election.find({

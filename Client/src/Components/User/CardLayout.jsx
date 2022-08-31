@@ -5,9 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
 
 export default function CardLayout(props) {
   const image = "https://picsum.photos/200/300?random=" + props.index;
+  const link = "" + props.index;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -21,11 +23,11 @@ export default function CardLayout(props) {
         <Typography gutterBottom variant="h5" component="div">
           {props.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" component="div">
           <strong>Candidates :</strong>
           {props.candidates.slice(0, 2).map((item, index) => {
             return (
-              <Typography>
+              <Typography key={index}>
                 {index + 1}. {item}
                 {index === 1 && props.candidates.length > 2 && " ..."}
               </Typography>
@@ -34,8 +36,9 @@ export default function CardLayout(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Vote</Button>
-        <Button size="small">View Details</Button>
+        <Link to={link}>
+          <Button size="small">View Details</Button>
+        </Link>
       </CardActions>
     </Card>
   );

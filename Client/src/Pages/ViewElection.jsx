@@ -1,10 +1,12 @@
-import { Grid, Toolbar, Typography } from "@mui/material";
 import React from "react";
-import CardLayout from "../Components/User/CardLayout";
+import { useParams } from "react-router-dom";
+import { Grid, Toolbar, Typography } from "@mui/material";
+import CandidateLayout from "../Components/User/CandidateLayout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const Election = () => {
+const ViewElection = (props) => {
+  const { id } = useParams();
   const style = {
     pageTitle: {
       paddingTop: 5,
@@ -18,10 +20,10 @@ const Election = () => {
     async function getData() {
       let res = await axios.get("http://localhost:1322/api/auth/elections");
       let users = res.data;
-      setData(users);
+      setData(users[id]);
     }
     getData();
-  }, []);
+  }, [id]);
 
   return (
     <div style={{ paddingBottom: 25 }}>
@@ -29,24 +31,21 @@ const Election = () => {
         <Grid container pt={3} spacing={2}>
           <Grid container justifyContent="center" alignItems="center">
             <Typography variant="h3" style={style.pageTitle}>
-              Elections
+              Candidates of {data.name}
             </Typography>
           </Grid>
-          {data.map((item, index) => {
-            return (
-              <Grid item xs={6} md={4} key={index}>
-                <CardLayout
-                  index={index}
-                  title={item.name}
-                  candidates={item.candidates}
-                />
-              </Grid>
-            );
-          })}
+          {data.candidates != null &&
+            data.candidates.map((item, index) => {
+              return (
+                <Grid item xs={6} md={4} key={index}>
+                  <CandidateLayout username={item} index={index} />
+                </Grid>
+              );
+            })}
         </Grid>
       </Toolbar>
     </div>
   );
 };
 
-export default Election;
+export default ViewElection;

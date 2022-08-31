@@ -8,6 +8,7 @@ import {
   candidateRegister,
   candidates,
   phase,
+  getCandidate,
 } from "../Controller/AuthController.js";
 
 const router = Router();
@@ -18,6 +19,11 @@ router.post(
   "/candidate/register",
   candidateRegister.validator,
   candidateRegister.controller
+);
+router.get(
+  "/candidate/:username",
+  getCandidate.validator,
+  getCandidate.controller
 );
 router.post(
   "/election/register",
