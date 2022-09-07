@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -7,46 +7,46 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 import axios from "axios";
+import { TransactionContext } from "../../context/TransactionContext";
 
 const CandidateLayout = (props) => {
-  const { ethereum } = window;
+  const { connectWallet, currentAccount } = useContext(TransactionContext);
   const index = props.index;
-  const link = "" + index;
-  const [data, setData] = useState(null);
-  const [haveMetamask, sethaveMetamask] = useState(true);
-  const [isConnected, setIsConnected] = useState(false);
-  const [accountAddress, setAccountAddress] = useState("");
+  const [data, setData] = useState("");
 
   const handleClick = () => {
-    const checkMetamaskAvailability = async () => {
-      if (!ethereum) {
-        sethaveMetamask(false);
-      }
-      sethaveMetamask(true);
-      const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setAccountAddress(accounts[0]);
-      setIsConnected(true);
-      if (haveMetamask && isConnected && accountAddress !== "") {
-        console.log(accountAddress);
-        const transaction = await ethereum
-          .request({
-            method: "eth_sendTransaction",
-            params: [
-              {
-                from: accountAddress,
-                to: "0xf43945ba62837D3d1740FB2174a016079E331dd7",
-                value: "101",
-                gas: "0x5208",
-              },
-            ],
-          })
-          .then((txHash) => console.log("Success: " + txHash))
-          .catch((error) => console.log(error));
-      }
-    };
-    checkMetamaskAvailability();
+    // const checkMetamaskAvailability = async () => {
+    //   if (!ethereum) {
+    //     sethaveMetamask(false);
+    //   }
+    //   sethaveMetamask(true);
+    //   const accounts = await ethereum.request({
+    //     method: "eth_requestAccounts",
+    //   });
+    //   setAccountAddress(accounts[0]);
+    //   setIsConnected(true);
+    //   if (haveMetamask && isConnected && accountAddress !== "") {
+    //     console.log(accountAddress);
+    //     const transaction = await ethereum
+    //       .request({
+    //         method: "eth_sendTransaction",
+    //         params: [
+    //           {
+    //             from: accountAddress,
+    //             to: "0xf43945ba62837D3d1740FB2174a016079E331dd7",
+    //             value: "101",
+    //             gas: "0x5208",
+    //           },
+    //         ],
+    //       })
+    //       .then((txHash) => console.log("Success: " + txHash))
+    //       .catch((error) => console.log(error));
+    //   }
+    // };
+    // checkMetamaskAvailability();
+
+    connectWallet();
+    console.log(currentAccount);
   };
 
   useEffect(() => {

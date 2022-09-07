@@ -9,6 +9,7 @@ import {
   candidates,
   phase,
   getCandidate,
+  userDelete,
 } from "../Controller/AuthController.js";
 
 const router = Router();
@@ -34,5 +35,6 @@ router.get("/phase", phase.controller);
 router.get("/candidates", candidates.controller);
 router.get("/elections", elections.controller);
 router.get("/users", users.controller);
+router.get("/user/delete/:userid", userDelete.controller);
 
 export default router;

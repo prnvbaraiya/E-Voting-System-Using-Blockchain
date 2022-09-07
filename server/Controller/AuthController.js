@@ -103,6 +103,18 @@ export const users = {
   },
 };
 
+export const userDelete = {
+  controller: async (req, res) => {
+    try {
+      const tmp = await User.findByIdAndDelete(req.params.userid);
+      return res.status(200).send("User Deleted Successfully");
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send("error");
+    }
+  },
+};
+
 //Candidate
 export const candidateRegister = {
   validator: async (req, res, next) => {
