@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { serverLink } from "../../../Data/Variables";
 import { Alert, Snackbar } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const ViewUser = () => {
   const [data, setData] = useState([]);
@@ -41,15 +42,13 @@ const ViewUser = () => {
       headerName: "Edit",
       width: 80,
       renderCell: (params) => {
-        const editBtn = () => {
-          const link = serverLink + "user/edit" + params.row._id;
-          axios.get(link);
-          alert("Edit Button " + params.row.username + " Clicked");
-        };
+        const link = "edit/" + params.row._id;
         return (
-          <Button onClick={editBtn}>
-            <EditIcon />
-          </Button>
+          <Link to={link}>
+            <Button>
+              <EditIcon />
+            </Button>
+          </Link>
         );
       },
     },

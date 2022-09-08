@@ -25,6 +25,7 @@ const Sidebar = () => {
                   <li
                     id={item.id}
                     onClick={handleClick(item.title)}
+                    key={index}
                     className="row"
                   >
                     <div id="icon">{item.icon}</div>

@@ -13,6 +13,7 @@ const InputField = (props) => {
         label={props.label}
         fullWidth={props.fullWidth}
         variant="outlined"
+        defaultValue={props.value ? props.value : ""}
       />
     </div>
   );

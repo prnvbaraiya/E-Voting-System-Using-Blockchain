@@ -27,6 +27,8 @@ export const register = {
         mobile: req.body.mobile,
         location: req.body.location,
         password: req.body.password,
+        fname: req.body.fname,
+        lname: req.body.lname,
       });
 
       const mailContent = "Thank You For Joining the Voting System";
@@ -115,6 +117,47 @@ export const userDelete = {
   },
 };
 
+export const getUser = {
+  controller: async (req, res) => {
+    try {
+      const tmp = await User.findById(req.params.id);
+      return res.status(200).send(tmp);
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send("Error!");
+    }
+  },
+};
+
+export const userAction = {
+  delete: async (req, res) => {
+    try {
+      const tmp = await User.findByIdAndDelete(req.params.id);
+      return res.status(200).send(tmp);
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send("Error!");
+    }
+  },
+
+  edit: async (req, res) => {
+    try {
+      const user = {
+        username: req.body.username,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        fname: req.body.fname,
+        lname: req.body.lname,
+      };
+      const tmp = await User.findByIdAndUpdate(req.params.id, user);
+      return res.status(200).send("User Updated Successfully");
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send("error");
+    }
+  },
+};
+
 //Candidate
 export const candidateRegister = {
   validator: async (req, res, next) => {
@@ -157,11 +200,15 @@ export const getCandidate = {
 
 export const phase = {
   controller: async (req, res) => {
-    const data = await Election.find({
-      currentPhase: "init",
+    const data = await Election.findByIdAndUpdate(req.params.id, {
+      currentPhase: req.body.currentPhase,
     });
     console.log(data);
-    return res.status(201).send(data);
+    return res.status(200).send(data);
+  },
+  getPhase: async (req, res) => {
+    const data = await Election.findById(req.params.id);
+    return res.status(200).send(data);
   },
 };
 

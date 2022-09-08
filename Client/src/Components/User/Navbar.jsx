@@ -32,7 +32,7 @@ export default function ButtonAppBar() {
                 {NavbarData.map((item, index) => {
                   return (
                     <Link to={item.link} key={index}>
-                      <Typography style={style.navLink} link>
+                      <Typography style={style.navLink}>
                         {item.title}
                       </Typography>
                     </Link>

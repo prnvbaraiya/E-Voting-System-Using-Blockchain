@@ -1,17 +1,22 @@
-import { Autocomplete, TextField, Stack } from "@mui/material";
+import { Autocomplete, TextField, Chip } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { serverLink } from "../../Data/Variables";
 
 const InputTags = (props) => {
   const [data, setData] = useState([]);
+  const [value, setValue] = useState([]);
 
   useEffect(() => {
     async function getData() {
       try {
-        const users = await axios.get(
-          "http://localhost:1322/api/auth/candidates"
+        const users = await axios.get(serverLink + "candidates");
+        let cand = users.data;
+        setData(cand);
+        let k = cand.filter((tmp) =>
+          props.candidates.includes(tmp.username) ? tmp : null
         );
-        setData(users.data);
+        setValue(k);
       } catch (e) {
         console.log("Server Error : " + e);
       }
@@ -20,29 +25,35 @@ const InputTags = (props) => {
   }, []);
 
   return (
-    <div>
-      <Stack spacing={3}>
-        <Autocomplete
-          multiple
-          required
-          onChange={(event, value) => {
-            props.setCandidates(value);
-          }}
-          id="tags-outlined"
-          options={data}
-          getOptionLabel={(option) => option.username}
-          filterSelectedOptions
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              name="tages[]"
-              label="Select Candidates"
-              placeholder="Candidates"
-            />
-          )}
-        />
-      </Stack>
-    </div>
+    <>
+      <Autocomplete
+        multiple
+        readOnly={props.readOnly}
+        id="fixed-tags-demo"
+        value={value}
+        onChange={(event, nvalue) => {
+          setValue([...nvalue]);
+          props.setCandidates(value);
+        }}
+        options={data}
+        getOptionLabel={(option) => option.username}
+        filterSelectedOptions
+        renderTags={(tagValue, getTagProps) =>
+          tagValue.map((option, index) => (
+            <Chip label={option.username} {...getTagProps({ index })} />
+          ))
+        }
+        renderInput={(params) => (
+          <TextField
+            required
+            {...params}
+            name="tages[]"
+            label="Select Candidates"
+            placeholder="Candidates"
+          />
+        )}
+      />
+    </>
   );
 };
 

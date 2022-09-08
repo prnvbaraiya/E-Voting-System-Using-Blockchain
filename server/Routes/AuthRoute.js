@@ -9,7 +9,8 @@ import {
   candidates,
   phase,
   getCandidate,
-  userDelete,
+  userAction,
+  getUser,
 } from "../Controller/AuthController.js";
 
 const router = Router();
@@ -31,10 +32,13 @@ router.post(
   electionRegister.validator,
   electionRegister.controller
 );
-router.get("/phase", phase.controller);
+router.get("/election/:id", phase.getPhase);
+router.post("/phase/edit/:id", phase.controller);
 router.get("/candidates", candidates.controller);
 router.get("/elections", elections.controller);
 router.get("/users", users.controller);
-router.get("/user/delete/:userid", userDelete.controller);
+router.get("/user/:id", getUser.controller);
+router.get("/user/delete/:id", userAction.delete);
+router.post("/user/edit/:id", userAction.edit);
 
 export default router;

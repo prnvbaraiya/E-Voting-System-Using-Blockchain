@@ -9,6 +9,16 @@ const UserSchema = new Mongoose.Schema(
       max: 20,
       unique: true,
     },
+    fname: {
+      type: String,
+      min: 3,
+      max: 20,
+    },
+    lname: {
+      type: String,
+      min: 3,
+      max: 20,
+    },
     email: {
       type: String,
       required: true,

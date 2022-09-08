@@ -10,6 +10,7 @@ import ViewElection from "../Pages/ViewElection";
 export const userRoutes = [
   <Route
     path="/"
+    key="home"
     element={
       <>
         <Navbar />
@@ -18,7 +19,7 @@ export const userRoutes = [
       </>
     }
   />,
-  <Route path="/election">
+  <Route path="/election" key="election">
     <Route
       index
       element={
@@ -41,6 +42,6 @@ export const userRoutes = [
     />
     ,
   </Route>,
-  <Route path="/login" element={<UserLogin />} />,
-  <Route path="/register" element={<UserRegister />} />,
+  <Route path="/login" key="login" element={<UserLogin />} />,
+  <Route path="/register" key="register" element={<UserRegister />} />,
 ];

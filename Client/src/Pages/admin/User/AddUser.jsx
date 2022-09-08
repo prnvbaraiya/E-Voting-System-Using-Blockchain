@@ -14,11 +14,13 @@ const AddUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const username = e.target.username.value;
+    const fname = e.target.fname.value;
+    const lname = e.target.lname.value;
     const email = e.target.email.value;
     const mobile = e.target.mobile.value;
     const password = e.target.password.value;
     const location = locationData.country_name;
-    const data = { username, email, mobile, password, location };
+    const data = { username, fname, lname, email, mobile, password, location };
 
     axios.post("http://localhost:1322/api/auth/register", data).then((res) => {
       console.log(res.status);
