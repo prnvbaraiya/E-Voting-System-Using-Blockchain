@@ -10,43 +10,37 @@ import axios from "axios";
 import { TransactionContext } from "../../context/TransactionContext";
 
 const CandidateLayout = (props) => {
-  const { connectWallet, currentAccount } = useContext(TransactionContext);
+  const { connectWallet, currentAccount, sendTransaction } =
+    useContext(TransactionContext);
   const index = props.index;
   const [data, setData] = useState("");
 
-  const handleClick = () => {
-    // const checkMetamaskAvailability = async () => {
-    //   if (!ethereum) {
-    //     sethaveMetamask(false);
-    //   }
-    //   sethaveMetamask(true);
-    //   const accounts = await ethereum.request({
-    //     method: "eth_requestAccounts",
-    //   });
-    //   setAccountAddress(accounts[0]);
-    //   setIsConnected(true);
-    //   if (haveMetamask && isConnected && accountAddress !== "") {
-    //     console.log(accountAddress);
-    //     const transaction = await ethereum
-    //       .request({
-    //         method: "eth_sendTransaction",
-    //         params: [
-    //           {
-    //             from: accountAddress,
-    //             to: "0xf43945ba62837D3d1740FB2174a016079E331dd7",
-    //             value: "101",
-    //             gas: "0x5208",
-    //           },
-    //         ],
-    //       })
-    //       .then((txHash) => console.log("Success: " + txHash))
-    //       .catch((error) => console.log(error));
-    //   }
-    // };
-    // checkMetamaskAvailability();
-
+  const handleClick = (id) => {
     connectWallet();
-    console.log(currentAccount);
+    sendTransaction(props.id, id);
+  };
+
+  const stringToColor = (string) => {
+    let hash = 0;
+    let i;
+
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+
+    return color;
+  };
+
+  const stringToAv = (fname, lname) => {
+    let n = fname[0] + lname[0];
+    return n;
   };
 
   useEffect(() => {
@@ -57,6 +51,7 @@ const CandidateLayout = (props) => {
       let user = res.data;
       setData(user);
     }
+    connectWallet();
     getData();
   }, [props.username]);
 
@@ -75,16 +70,21 @@ const CandidateLayout = (props) => {
           {" "}
           <Avatar
             aria-label="recipe"
-            sx={{ width: "200px", height: "200px", fontSize: "50px" }}
+            sx={{
+              width: "200px",
+              height: "200px",
+              fontSize: "50px",
+              bgcolor: stringToColor(data.firstName + " " + data.lastName),
+            }}
           >
-            P
+            {data !== "" && stringToAv(data.firstName, data.lastName)}
           </Avatar>
         </CardMedia>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {props.username}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" component="div">
             {data !== null && (
               <>
                 <Typography>
@@ -96,7 +96,7 @@ const CandidateLayout = (props) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={handleClick}>
+          <Button size="small" onClick={() => handleClick(data._id)}>
             Vote
           </Button>
         </CardActions>

@@ -38,7 +38,11 @@ const ViewElection = (props) => {
             data.candidates.map((item, index) => {
               return (
                 <Grid item xs={6} md={4} key={index}>
-                  <CandidateLayout username={item} index={index} />
+                  <CandidateLayout
+                    username={item}
+                    index={index}
+                    id={data._id}
+                  />
                 </Grid>
               );
             })}

@@ -6,34 +6,22 @@ export const TransactionContext = React.createContext();
 
 const { ethereum } = window;
 
-const createEthereumContract = () => {
-  const provider = new ethers.providers.Web3Provider(ethereum);
-  const signer = provider.getSigner();
-  const transactionContract = new ethers.Contract(
-    contractAddress,
-    contractABI,
-    signer
-  );
-
-  return transactionContract;
-};
-
 export const TransactionProvider = ({ children }) => {
-  const [formData, setformData] = useState({
-    addressTo: "",
-    amount: "",
-    keyword: "",
-    message: "",
-  });
   const [currentAccount, setCurrentAccount] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [transactionCount, setTransactionCount] = useState(
     localStorage.getItem("transactionCount")
   );
-  const [transactions, setTransactions] = useState([]);
 
-  const handleChange = (e, name) => {
-    setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
+  const createEthereumContract = () => {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const transactionContract = new ethers.Contract(
+      contractAddress,
+      contractABI,
+      signer
+    );
+
+    return transactionContract;
   };
 
   const connectWallet = async () => {
@@ -52,33 +40,15 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
-  const sendTransaction = async () => {
+  const sendTransaction = async (election_id, candidate_id) => {
     try {
       if (ethereum) {
-        const { addressTo, amount, keyword, message } = formData;
         const transactionsContract = createEthereumContract();
-        // const parsedAmount = ethers.utils.parseEther(amount);
-        const parsedAmount = ethers.utils.parseEther("0.5");
-
-        console.log(currentAccount);
-
-        await ethereum.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: "0xDB8275634eD537c065c1ad968b92eDC4F5b12681",
-              to: "0x8952C100406fdd99dfe3C94909314b3458eE93ab",
-              gas: "0x5208",
-              value: parsedAmount._hex,
-            },
-          ],
-        });
 
         const transactionHash = await transactionsContract.addToBlockchain(
-          "0xDB8275634eD537c065c1ad968b92eDC4F5b12681",
-          parsedAmount,
-          "prnv",
-          "test"
+          currentAccount,
+          election_id,
+          candidate_id
         );
 
         console.log(`Loading - ${transactionHash.hash}`);
@@ -88,7 +58,7 @@ export const TransactionProvider = ({ children }) => {
         const transactionsCount =
           await transactionsContract.getTransactionCount();
 
-        // window.location.reload();
+        console.log(transactionCount);
       } else {
         console.log("No ethereum object");
       }

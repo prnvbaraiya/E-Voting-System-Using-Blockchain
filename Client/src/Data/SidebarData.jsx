@@ -17,7 +17,7 @@ export const SidebarData = [
     title: "Dashboard",
     icon: <AiOutlineDashboard />,
     link: "/admin/dashboard",
-    id: "active",
+    id: "",
   },
   {
     title: "User",
