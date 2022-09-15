@@ -13,6 +13,7 @@ import AdminLogout from "../Pages/admin/Logout/AdminLogout";
 import EditUser from "../Pages/admin/User/EditUser";
 import ViewPhase from "../Pages/admin/Phase/ViewPhase";
 import EditPhase from "../Pages/admin/Phase/EditPhase";
+import ViewResult from "../Pages/admin/Result/ViewResult";
 
 export const adminRoutes = [
   <Route path="/admin" exact element={<AdminLogin />} key="adminLogin" />,
@@ -38,6 +39,9 @@ export const adminRoutes = [
     <Route path="phase">
       <Route index element={<ViewPhase />} />
       <Route path="edit/:id" element={<EditPhase />} />
+    </Route>
+    <Route path="result">
+      <Route index element={<ViewResult />} />
     </Route>
     <Route path="logout" element={<AdminLogout />}></Route>
   </Route>,

@@ -44,6 +44,12 @@ export const SidebarData = [
     id: "",
   },
   {
+    title: "Result",
+    icon: <LoopIcon />,
+    link: "/admin/result",
+    id: "",
+  },
+  {
     title: "Logout",
     icon: <LogoutIcon />,
     link: "/admin/logout",

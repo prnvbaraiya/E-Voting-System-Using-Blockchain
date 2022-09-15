@@ -11,6 +11,7 @@ export const TransactionProvider = ({ children }) => {
   const [transactionCount, setTransactionCount] = useState(
     localStorage.getItem("transactionCount")
   );
+  const [transactions, setTransactions] = useState([]);
 
   const createEthereumContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
@@ -69,10 +70,44 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
+  const getAllTransactions = async () => {
+    try {
+      if (ethereum) {
+        const transactionsContract = createEthereumContract();
+
+        const availableTransactions =
+          await transactionsContract.getAllTransaction();
+
+        const structuredTransactions = availableTransactions.map(
+          (transaction) => ({
+            addressFrom: transaction.from,
+            timestamp: new Date(
+              transaction.timestamp.toNumber() * 1000
+            ).toLocaleString(),
+            election_id: transaction.election_id,
+            candidate_id: transaction.candidate_id,
+          })
+        );
+
+        setTransactions(structuredTransactions);
+      } else {
+        console.log("Ethereum is not present");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <TransactionContext.Provider
-        value={{ connectWallet, currentAccount, sendTransaction }}
+        value={{
+          connectWallet,
+          currentAccount,
+          sendTransaction,
+          getAllTransactions,
+          transactions,
+        }}
       >
         {children}
       </TransactionContext.Provider>

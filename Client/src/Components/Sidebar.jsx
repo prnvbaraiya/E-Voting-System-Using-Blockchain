@@ -16,7 +16,6 @@ const Sidebar = () => {
       }
     }
     setData(tmp);
-    console.log(tmp);
   }
 
   return (
