@@ -45,7 +45,7 @@ const InputTags = (props) => {
         }
         renderInput={(params) => (
           <TextField
-            required
+            // required
             {...params}
             name="tages[]"
             label="Select Candidates"

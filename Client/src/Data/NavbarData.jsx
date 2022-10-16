@@ -10,6 +10,11 @@ export const NavbarData = [
     id: "",
   },
   {
+    title: "Result",
+    link: "/result",
+    id: "",
+  },
+  {
     title: "Login",
     link: "/login",
     id: "",
