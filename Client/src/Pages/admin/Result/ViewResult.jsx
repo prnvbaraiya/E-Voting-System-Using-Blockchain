@@ -3,7 +3,7 @@ import { TransactionContext } from "../../../context/TransactionContext";
 import axios from "axios";
 import { serverLink } from "../../../Data/Variables";
 import { Grid, Toolbar } from "@mui/material";
-import CardLayout from "../../../Components/User/CardLayout";
+import ElectionResult from "../../../Components/Admin/ElectionResult";
 import ContentHeader from "../../../Components/ContentHeader";
 import {
   ObjectGroupBy,
@@ -76,11 +76,12 @@ const ViewResult = () => {
               result.map((item, index) => {
                 return (
                   <Grid item xs={6} md={4} key={index}>
-                    <CardLayout
+                    <ElectionResult
                       index={index}
                       title={item.name}
                       candidates={item.candidates}
                       election={item._id}
+                      info={item}
                     />
                   </Grid>
                 );

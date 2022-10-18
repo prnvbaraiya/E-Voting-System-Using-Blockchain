@@ -1,23 +1,15 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 import axios from "axios";
-import { TransactionContext } from "../../context/TransactionContext";
-import { stringToAv, stringToColor } from "../../Data/Methods";
+import { stringToColor, stringToAv } from "../../Data/Methods";
 
-const CandidateLayout = (props) => {
-  const { connectWallet, sendTransaction } = useContext(TransactionContext);
+const Candidate = (props) => {
   const [data, setData] = useState("");
-
-  const handleClick = (id) => {
-    connectWallet();
-    sendTransaction(props.id, id);
-  };
 
   useEffect(() => {
     async function getData() {
@@ -27,9 +19,7 @@ const CandidateLayout = (props) => {
       let user = res.data;
       setData(user);
     }
-    connectWallet();
     getData();
-    // eslint-disable-next-line
   }, [props.username]);
 
   return (
@@ -67,19 +57,20 @@ const CandidateLayout = (props) => {
                 <Typography>
                   Name : {data.firstName + " " + data.lastName}
                 </Typography>
+                <Typography>Total Vote : {props.vote}</Typography>
                 <Typography>Location: {data.location}</Typography>
               </>
             )}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={() => handleClick(data._id)}>
+          {/* <Button size="small" onClick={() => handleClick(data._id)}>
             Vote
-          </Button>
+          </Button> */}
         </CardActions>
       </Card>
     </>
   );
 };
 
-export default CandidateLayout;
+export default Candidate;
