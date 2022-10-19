@@ -6,6 +6,8 @@ import Election from "../Pages/Election";
 import Footer from "../Components/User/Footer";
 import Navbar from "../Components/User/Navbar";
 import ViewElection from "../Pages/ViewElection";
+import ResultElection from "../Pages/ResultElection";
+import ResultCandidate from "../Pages/ResultCandidate";
 
 export const userRoutes = [
   <Route
@@ -36,6 +38,28 @@ export const userRoutes = [
         <>
           <Navbar />
           <ViewElection />
+          <Footer />
+        </>
+      }
+    />
+  </Route>,
+  <Route path="/result" key="result">
+    <Route
+      index
+      element={
+        <>
+          <Navbar />
+          <ResultElection />
+          <Footer />
+        </>
+      }
+    />
+    <Route
+      path=":id"
+      element={
+        <>
+          <Navbar />
+          <ResultCandidate />
           <Footer />
         </>
       }

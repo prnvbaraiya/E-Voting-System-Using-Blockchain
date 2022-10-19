@@ -1,11 +1,13 @@
 import { Grid, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import CardLayout from "../Components/User/CardLayout";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { serverLink } from "../Data/Variables";
+import { getResult } from "../Data/Methods";
+import { TransactionContext } from "../context/TransactionContext";
 
-const Election = () => {
+const ResultElection = () => {
   const style = {
     pageTitle: {
       paddingTop: 5,
@@ -14,14 +16,35 @@ const Election = () => {
   };
 
   const [data, setData] = useState([]);
+  const { getAllTransactions } = useContext(TransactionContext);
 
   useEffect(() => {
     async function getData() {
-      let res = await axios.get(serverLink + "voting/elections");
+      let res = await axios.get(serverLink + "result/elections");
       let users = res.data;
-      setData(users);
+      let transactions = await getAllTransactions();
+      let result = await getResult(transactions);
+      let ans = [];
+      // eslint-disable-next-line
+      users.map((item) => {
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].name === item.name) {
+            item = {
+              ...item,
+              vote: result[i].vote,
+              candidates: result[i].candidates,
+              info: result[i],
+            };
+            ans.push(item);
+            break;
+          }
+        }
+      });
+      console.log(ans);
+      setData(ans);
     }
     getData();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -30,7 +53,7 @@ const Election = () => {
         <Grid container pt={3} spacing={2}>
           <Grid container justifyContent="center" alignItems="center">
             <Typography variant="h3" style={style.pageTitle}>
-              Elections
+              Election Result
             </Typography>
           </Grid>
           {data.map((item, index) => {
@@ -41,7 +64,8 @@ const Election = () => {
                   title={item.name}
                   candidates={item.candidates}
                   election={item._id}
-                  link={item._id}
+                  link={item.name}
+                  info={item.info}
                 />
               </Grid>
             );
@@ -52,4 +76,4 @@ const Election = () => {
   );
 };
 
-export default Election;
+export default ResultElection;

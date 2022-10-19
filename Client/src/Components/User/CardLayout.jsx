@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 export default function CardLayout(props) {
   const image = "https://picsum.photos/200/300?random=" + props.index;
-  const link = "" + props.index;
+  const link = "" + props.link;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -36,7 +36,7 @@ export default function CardLayout(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={link}>
+        <Link to={link} state={{ info: props.info }}>
           <Button size="small">View Details</Button>
         </Link>
       </CardActions>

@@ -35,6 +35,8 @@ router.post(
 router.get("/election/:id", phase.getPhase);
 router.post("/phase/edit/:id", phase.controller);
 router.get("/candidates", candidates.controller);
+router.get("/voting/elections", elections.voting);
+router.get("/result/elections", elections.result);
 router.get("/elections", elections.controller);
 router.get("/users", users.controller);
 router.get("/user/:id", getUser.controller);

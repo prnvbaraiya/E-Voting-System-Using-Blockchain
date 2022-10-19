@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 export default function CardLayout(props) {
   const image = "https://picsum.photos/200/300?random=" + props.index;
-  const link = "" + props.index;
+  const link = "" + props.link;
 
   return (
     <Card sx={{ maxWidth: 345 }}>

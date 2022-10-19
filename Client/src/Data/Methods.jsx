@@ -1,3 +1,6 @@
+import axios from "axios";
+import { serverLink } from "./Variables";
+
 export const ObjectGroupBy = (object, group) => {
   var ans = {};
   object.forEach(function (item) {
@@ -57,4 +60,38 @@ export const stringToColor = (string) => {
 export const stringToAv = (fname, lname) => {
   let n = fname[0] + lname[0];
   return n;
+};
+
+export const getResult = async (transactions) => {
+  let link = serverLink + "/candidates";
+  let res = await axios.get(link);
+  const candidates = res.data;
+
+  link = serverLink + "/elections";
+  res = await axios.get(link);
+  const electionsD = res.data;
+
+  var electionGroup = ObjectGroupBy(transactions, "election_id");
+  electionGroup = ObjectKeyReplace(electionGroup, electionsD, "_id", "name");
+
+  const elections = Object.keys(electionGroup);
+
+  var ans = [];
+
+  for (let i = 0; i < elections.length; i++) {
+    var electionRes = ObjectGroupBy(
+      electionGroup[elections[i]],
+      "candidate_id"
+    );
+
+    electionRes = ObjectKeyReplace(electionRes, candidates, "_id", "username");
+
+    let votes = [];
+    let candidate = Object.keys(electionRes);
+    // eslint-disable-next-line
+    candidate.filter((tmp) => votes.push(electionRes[tmp].length));
+    [votes, candidate] = TwoArraySort(votes, candidate);
+    ans.push({ name: elections[i], candidates: candidate, vote: votes });
+  }
+  return ans;
 };

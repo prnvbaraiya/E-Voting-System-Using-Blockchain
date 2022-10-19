@@ -240,6 +240,22 @@ export const elections = {
       return res.status(500).send("Error");
     }
   },
+  voting: async (req, res) => {
+    try {
+      const tmp = await Election.find({ currentPhase: "voting" });
+      return res.status(201).send(tmp);
+    } catch (e) {
+      return res.status(500).send("Error");
+    }
+  },
+  result: async (req, res) => {
+    try {
+      const tmp = await Election.find({ currentPhase: "result" });
+      return res.status(201).send(tmp);
+    } catch (e) {
+      return res.status(500).send("Error");
+    }
+  },
 };
 
 const sendMail = async (mailContent, mailSubject, user) => {
