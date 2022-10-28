@@ -9,14 +9,17 @@ import { Avatar } from "@mui/material";
 import axios from "axios";
 import { TransactionContext } from "../../context/TransactionContext";
 import { stringToAv, stringToColor } from "../../Data/Methods";
+import { serverLink } from "../../Data/Variables";
 
 const CandidateLayout = (props) => {
   const { connectWallet, sendTransaction } = useContext(TransactionContext);
   const [data, setData] = useState("");
 
   const handleClick = (id) => {
-    connectWallet();
-    sendTransaction(props.id, id);
+    // alert("Hello");
+    window.location.replace(serverLink + "op");
+    // connectWallet();
+    // sendTransaction(props.id, id);
   };
 
   useEffect(() => {

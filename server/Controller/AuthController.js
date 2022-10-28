@@ -3,6 +3,7 @@ import Election from "../Models/Election.js";
 import Candidate from "../Models/Candidate.js";
 import JWT from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import { PythonShell } from "python-shell";
 
 // http://localhost:5000/api/auth/register
 //
@@ -281,4 +282,24 @@ const sendMail = async (mailContent, mailSubject, user) => {
       return true;
     }
   });
+};
+
+export const a = {
+  sc: async (req, res) => {
+    // return res.status(201).send("YAY PRabac");
+
+    PythonShell.run(
+      "D:/study/sem-7/4IT31/Lab/admin-project/server/Controller/fr.py",
+      null,
+      function (err, result) {
+        // console.log(result);
+        // console.log("Error : ");
+        // console.log(err);
+        // console.log("Python script finished");
+
+        return res.status(201).send(Object.values(result));
+        // return res.status(201).send("YAY");
+      }
+    );
+  },
 };

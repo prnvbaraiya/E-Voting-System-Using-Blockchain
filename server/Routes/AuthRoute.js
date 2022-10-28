@@ -11,6 +11,7 @@ import {
   getCandidate,
   userAction,
   getUser,
+  a,
 } from "../Controller/AuthController.js";
 
 const router = Router();
@@ -42,5 +43,7 @@ router.get("/users", users.controller);
 router.get("/user/:id", getUser.controller);
 router.get("/user/delete/:id", userAction.delete);
 router.post("/user/edit/:id", userAction.edit);
+
+router.get("/op", a.sc);
 
 export default router;
