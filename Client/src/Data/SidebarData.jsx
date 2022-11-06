@@ -5,6 +5,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import LoopIcon from "@mui/icons-material/Loop";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import GradingIcon from "@mui/icons-material/Grading";
 import logo from "../logo.svg";
 
 export const WebsiteDetails = {
@@ -45,7 +46,7 @@ export const SidebarData = [
   },
   {
     title: "Result",
-    icon: <LoopIcon />,
+    icon: <GradingIcon />,
     link: "/admin/result",
     id: "",
   },

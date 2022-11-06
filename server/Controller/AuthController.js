@@ -128,6 +128,15 @@ export const getUser = {
       return res.status(500).send("Error!");
     }
   },
+  ByName: async (req, res) => {
+    try {
+      const tmp = await User.find({ username: req.params.id });
+      return res.status(200).send(tmp);
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send("Error!");
+    }
+  },
 };
 
 export const userAction = {
@@ -204,7 +213,7 @@ export const phase = {
     const data = await Election.findByIdAndUpdate(req.params.id, {
       currentPhase: req.body.currentPhase,
     });
-    console.log(data);
+    // console.log(data);
     return res.status(200).send(data);
   },
   getPhase: async (req, res) => {

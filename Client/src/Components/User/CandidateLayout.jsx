@@ -5,38 +5,72 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Avatar } from "@mui/material";
+import { Avatar, Backdrop, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { TransactionContext } from "../../context/TransactionContext";
 import { stringToAv, stringToColor } from "../../Data/Methods";
 import { serverLink } from "../../Data/Variables";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CandidateLayout = (props) => {
+  const navigate = useNavigate();
   const { connectWallet, sendTransaction } = useContext(TransactionContext);
   const [data, setData] = useState("");
+  const [msg, setMsg] = useState("");
+  const link = "/login";
 
-  const handleClick = (id) => {
-    // alert("Hello");
-    window.location.replace(serverLink + "op");
-    // connectWallet();
-    // sendTransaction(props.id, id);
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = async (id) => {
+    setLoading(true);
+    setMsg(" Accessing Camera");
+    let res = await axios.post(serverLink + "op");
+    let user = res.data;
+
+    setMsg(user + " Detected");
+
+    res = await axios.get(serverLink + "user/username/" + user);
+    console.log(serverLink + "user/username/" + user);
+    user = res.data[0];
+
+    console.log(user);
+    const tmp = {
+      candidate_id: data._id,
+      candidate_username: props.username,
+      election_id: props.id,
+      user_id: user._id,
+      user_username: user.username,
+    };
+
+    setMsg("");
+    setLoading(false);
+
+    navigate(link, { state: { info: tmp } });
   };
 
   useEffect(() => {
     async function getData() {
-      let res = await axios.get(
-        "http://localhost:1322/api/auth/candidate/" + props.username
-      );
+      let res = await axios.get(serverLink + "candidate/" + props.username);
       let user = res.data;
       setData(user);
     }
-    connectWallet();
     getData();
     // eslint-disable-next-line
   }, [props.username]);
 
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <div>
+          <CircularProgress color="inherit" />
+        </div>
+        <div>{msg}</div>
+      </Backdrop>
+
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           height="140"

@@ -8,6 +8,7 @@ import { serverLink } from "../Data/Variables";
 
 const ViewElection = () => {
   const { id } = useParams();
+
   const style = {
     pageTitle: {
       paddingTop: 5,
@@ -28,29 +29,31 @@ const ViewElection = () => {
   }, [id]);
 
   return (
-    <div style={{ paddingBottom: 25 }}>
-      <Toolbar>
-        <Grid container pt={3} spacing={2}>
-          <Grid container justifyContent="center" alignItems="center">
-            <Typography variant="h3" style={style.pageTitle}>
-              Candidates of {data.name}
-            </Typography>
+    <>
+      <div style={{ paddingBottom: 25 }}>
+        <Toolbar>
+          <Grid container pt={3} spacing={2}>
+            <Grid container justifyContent="center" alignItems="center">
+              <Typography variant="h3" style={style.pageTitle}>
+                Candidates of {data.name}
+              </Typography>
+            </Grid>
+            {data.candidates != null &&
+              data.candidates.map((item, index) => {
+                return (
+                  <Grid item xs={6} md={4} key={index}>
+                    <CandidateLayout
+                      username={item}
+                      index={index}
+                      id={data._id}
+                    />
+                  </Grid>
+                );
+              })}
           </Grid>
-          {data.candidates != null &&
-            data.candidates.map((item, index) => {
-              return (
-                <Grid item xs={6} md={4} key={index}>
-                  <CandidateLayout
-                    username={item}
-                    index={index}
-                    id={data._id}
-                  />
-                </Grid>
-              );
-            })}
-        </Grid>
-      </Toolbar>
-    </div>
+        </Toolbar>
+      </div>
+    </>
   );
 };
 

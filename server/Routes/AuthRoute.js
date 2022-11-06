@@ -41,9 +41,10 @@ router.get("/result/elections", elections.result);
 router.get("/elections", elections.controller);
 router.get("/users", users.controller);
 router.get("/user/:id", getUser.controller);
+router.get("/user/username/:id", getUser.ByName);
 router.get("/user/delete/:id", userAction.delete);
 router.post("/user/edit/:id", userAction.edit);
 
-router.get("/op", a.sc);
+router.post("/op", a.sc);
 
 export default router;

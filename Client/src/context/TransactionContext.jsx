@@ -41,7 +41,7 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
-  const sendTransaction = async (election_id, candidate_id) => {
+  const sendTransaction = async (election_id, candidate_id, user_id) => {
     try {
       if (ethereum) {
         const transactionsContract = createEthereumContract();

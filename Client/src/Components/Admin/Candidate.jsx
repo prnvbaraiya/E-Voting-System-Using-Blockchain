@@ -7,15 +7,14 @@ import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 import axios from "axios";
 import { stringToColor, stringToAv } from "../../Data/Methods";
+import { serverLink } from "../../Data/Variables";
 
 const Candidate = (props) => {
   const [data, setData] = useState("");
 
   useEffect(() => {
     async function getData() {
-      let res = await axios.get(
-        "http://localhost:1322/api/auth/candidate/" + props.username
-      );
+      let res = await axios.get(serverLink + "candidate/" + props.username);
       let user = res.data;
       setData(user);
     }

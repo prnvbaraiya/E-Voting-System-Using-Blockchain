@@ -8,6 +8,7 @@ import Navbar from "../Components/User/Navbar";
 import ViewElection from "../Pages/ViewElection";
 import ResultElection from "../Pages/ResultElection";
 import ResultCandidate from "../Pages/ResultCandidate";
+import Login from "../Pages/Login";
 
 export const userRoutes = [
   <Route
@@ -17,6 +18,17 @@ export const userRoutes = [
       <>
         <Navbar />
         <Home />
+        <Footer />
+      </>
+    }
+  />,
+  <Route
+    path="/login"
+    key="home"
+    element={
+      <>
+        <Navbar />
+        <Login />
         <Footer />
       </>
     }

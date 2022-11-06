@@ -14,9 +14,4 @@ export const NavbarData = [
     link: "/result",
     id: "",
   },
-  {
-    title: "Login",
-    link: "/login",
-    id: "",
-  },
 ];
