@@ -27,7 +27,10 @@ const Login = () => {
     console.log(data.election_id, data.candidate_id, data.user_id);
 
     connectWallet();
-    sendTransaction(data.election_id, data.candidate_id, data.user_id);
+    if (sendTransaction(data.election_id, data.candidate_id, data.user_id)) {
+      window.location.href = "/";
+      alert("Thank You For the Vote");
+    }
   };
 
   return (

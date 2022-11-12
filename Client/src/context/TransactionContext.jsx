@@ -48,6 +48,7 @@ export const TransactionProvider = ({ children }) => {
 
         const transactionHash = await transactionsContract.addToBlockchain(
           currentAccount,
+          user_id,
           election_id,
           candidate_id
         );
@@ -60,6 +61,8 @@ export const TransactionProvider = ({ children }) => {
           await transactionsContract.getTransactionCount();
 
         console.log(transactionCount);
+
+        return true;
       } else {
         console.log("No ethereum object");
       }

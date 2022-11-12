@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -7,15 +7,12 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar, Backdrop, CircularProgress } from "@mui/material";
 import axios from "axios";
-import { TransactionContext } from "../../context/TransactionContext";
 import { stringToAv, stringToColor } from "../../Data/Methods";
 import { serverLink } from "../../Data/Variables";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const CandidateLayout = (props) => {
   const navigate = useNavigate();
-  const { connectWallet, sendTransaction } = useContext(TransactionContext);
   const [data, setData] = useState("");
   const [msg, setMsg] = useState("");
   const link = "/login";
