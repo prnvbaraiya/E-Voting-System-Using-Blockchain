@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "../../../Components/Form/ErrorMessage";
 import axios from "axios";
 import ContentHeader from "../../../Components/ContentHeader";
+import { serverLink } from "../../../Data/Variables";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const AddUser = () => {
     const location = locationData.country_name;
     const data = { username, fname, lname, email, mobile, password, location };
 
-    axios.post("http://localhost:1322/api/auth/register", data).then((res) => {
+    axios.post(serverLink + "register", data).then((res) => {
       console.log(res.status);
       if (res.status === 201) {
         navigate("/admin/user");
@@ -32,8 +33,14 @@ const AddUser = () => {
 
   useEffect(() => {
     async function getData() {
-      let data = await axios.get("https://geolocation-db.com/json/");
-      setLocation(data.data);
+      await axios
+        .get("https://geolocation-db.com/json/")
+        .then((res) => {
+          setLocation(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     getData();
   }, []);

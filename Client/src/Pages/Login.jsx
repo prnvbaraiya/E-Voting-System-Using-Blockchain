@@ -1,10 +1,12 @@
-import { TextField, Button, Typography, Box, Grid, Paper } from "@mui/material";
-import React, { useContext, useState } from "react";
+import { Button, Typography, Box, Grid, Paper } from "@mui/material";
+import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import InputField from "../Components/Form/InputField";
 import { ErrorMessage } from "../Components/Form/ErrorMessage";
 import { TransactionContext } from "../context/TransactionContext";
 import { useEffect } from "react";
+import { serverLink } from "../Data/Variables";
+import axios from "axios";
 
 const Login = () => {
   const location = useLocation();
@@ -15,7 +17,7 @@ const Login = () => {
     connectWallet();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const password = e.target.password.value;
     const username = e.target.username.value;
@@ -24,12 +26,27 @@ const Login = () => {
       password,
     };
 
-    console.log(data.election_id, data.candidate_id, data.user_id);
+    let check = await axios.post(serverLink + "login", tmp);
+    console.log(check.status);
+    if (check.status === 202) {
+      alert("Invalid Password");
+    }
+    if (check.status === 201) {
+      await connectWallet();
+      let trans = false;
+      trans = await sendTransaction(
+        data.election_id,
+        data.candidate_id,
+        data.user_id
+      );
 
-    connectWallet();
-    if (sendTransaction(data.election_id, data.candidate_id, data.user_id)) {
-      window.location.href = "/";
-      alert("Thank You For the Vote");
+      if (trans) {
+        window.location.href = "/";
+        axios.post(serverLink + "votingEmail", data.user_id);
+        alert("Thank You For the Vote");
+      } else {
+        alert("There is Some Internal Error Try again later");
+      }
     }
   };
 
@@ -59,6 +76,7 @@ const Login = () => {
                     label="Election Id"
                     name="election_id"
                     fullWidth={true}
+                    type="password"
                     value={data.election_id}
                     id="outlined-disabled"
                     disabled
@@ -81,6 +99,7 @@ const Login = () => {
                     label="Password"
                     name="password"
                     fullWidth={true}
+                    type="password"
                     id="password"
                   />
                   <ErrorMessage />

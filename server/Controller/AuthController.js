@@ -62,33 +62,14 @@ export const login = {
       });
 
       if (!findUser) {
-        return res.status(401).send("Invalid Username");
+        return res.status(202).send("Invalid Username");
       }
 
       if (findUser.password !== req.body.password) {
-        return res.status(401).send("Invalid Password");
+        return res.status(202).send("Invalid Password");
       }
 
-      const accessToken = JWT.sign(
-        {
-          id: findUser._id,
-        },
-        process.env.JWT_SEC_KEY,
-        { expiresIn: "3d" }
-      );
-
-      res.cookie("votingsystem", accessToken, {
-        maxAge: 1000 * 60 * 60 * 24,
-        httpOnly: true,
-      });
-
-      const { password, ...others } = findUser._doc;
-
-      return res.status(201).json({
-        success: true,
-        ...others,
-        accessToken,
-      });
+      return res.status(201).send("Suucess");
     } catch (e) {
       return res.status(500).send("Server Error");
     }
@@ -312,3 +293,55 @@ export const a = {
     );
   },
 };
+
+//Voting Mail
+
+export const votingMail = {
+  send: async (req, res) => {
+    const mailContent =
+      "Thank You For The Voting but if it's not you contact admin@votingsystem.com";
+
+    const mailSubject = "Voting Success";
+
+    const findUser = await User.findOne(req.body.id);
+
+    if (sendMail(mailContent, mailSubject, findUser)) {
+      return res.status(201).send("Email Sent");
+    } else {
+      return res.status(301).send("Email Sending Failed");
+    }
+  },
+};
+
+// validator: async (req, res, next) => {
+//   next();
+// },
+// controller: async (req, res) => {
+//   try {
+//     const newUser = await User.create({
+//       username: req.body.username,
+//       email: req.body.email,
+//       mobile: req.body.mobile,
+//       location: req.body.location,
+//       password: req.body.password,
+//       fname: req.body.fname,
+//       lname: req.body.lname,
+//     });
+
+//     const mailContent = "Thank You For Joining the Voting System";
+
+//     const mailSubject = "Welcome Mail";
+
+//     const findUser = await User.findOne({ email: req.body.email });
+//     //Try to use newUser
+
+//     if (sendMail(mailContent, mailSubject, findUser)) {
+//       return res.status(201).send("Email Sent");
+//     } else {
+//       return res.status(301).send("Email Sending Failed");
+//     }
+//   } catch (e) {
+//     console.log(e);
+//     return res.status(500).send("Registeration Failed");
+//   }
+// },

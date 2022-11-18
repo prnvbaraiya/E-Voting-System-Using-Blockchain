@@ -65,6 +65,7 @@ export const TransactionProvider = ({ children }) => {
         return true;
       } else {
         console.log("No ethereum object");
+        return false;
       }
     } catch (error) {
       console.log(error);

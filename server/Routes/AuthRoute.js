@@ -11,6 +11,7 @@ import {
   getCandidate,
   userAction,
   getUser,
+  votingMail,
   a,
 } from "../Controller/AuthController.js";
 
@@ -46,5 +47,6 @@ router.get("/user/delete/:id", userAction.delete);
 router.post("/user/edit/:id", userAction.edit);
 
 router.post("/op", a.sc);
+router.post("/votingEmail", votingMail.send);
 
 export default router;
