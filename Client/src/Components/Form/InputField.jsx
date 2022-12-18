@@ -3,9 +3,6 @@ import { TextField } from "@mui/material";
 import { useEffect } from "react";
 
 const InputField = (props) => {
-  useEffect(() => {
-    console.log(props.type);
-  }, []);
   return (
     <div>
       <TextField

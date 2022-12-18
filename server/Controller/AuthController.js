@@ -1,7 +1,6 @@
 import User from "../Models/User.js";
 import Election from "../Models/Election.js";
 import Candidate from "../Models/Candidate.js";
-import JWT from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { PythonShell } from "python-shell";
 
@@ -303,7 +302,7 @@ export const votingMail = {
 
     const mailSubject = "Voting Success";
 
-    const findUser = await User.findOne(req.body.id);
+    const findUser = await User.findOne({ _id: req.body.id });
 
     if (sendMail(mailContent, mailSubject, findUser)) {
       return res.status(201).send("Email Sent");
@@ -312,36 +311,3 @@ export const votingMail = {
     }
   },
 };
-
-// validator: async (req, res, next) => {
-//   next();
-// },
-// controller: async (req, res) => {
-//   try {
-//     const newUser = await User.create({
-//       username: req.body.username,
-//       email: req.body.email,
-//       mobile: req.body.mobile,
-//       location: req.body.location,
-//       password: req.body.password,
-//       fname: req.body.fname,
-//       lname: req.body.lname,
-//     });
-
-//     const mailContent = "Thank You For Joining the Voting System";
-
-//     const mailSubject = "Welcome Mail";
-
-//     const findUser = await User.findOne({ email: req.body.email });
-//     //Try to use newUser
-
-//     if (sendMail(mailContent, mailSubject, findUser)) {
-//       return res.status(201).send("Email Sent");
-//     } else {
-//       return res.status(301).send("Email Sending Failed");
-//     }
-//   } catch (e) {
-//     console.log(e);
-//     return res.status(500).send("Registeration Failed");
-//   }
-// },

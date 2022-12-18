@@ -19,7 +19,7 @@ from encoded import encoded_face_train,classNames
 #         encodeList.append(encoded_face)
 #     return encodeList
 # encoded_face_train = findEncodings(images)
-cap  = cv2.VideoCapture(0)
+cap  = cv2.VideoCapture(1)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,1024)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT,768)
 flag = 0

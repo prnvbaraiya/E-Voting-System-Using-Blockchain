@@ -90,6 +90,7 @@ export const TransactionProvider = ({ children }) => {
             ).toLocaleString(),
             election_id: transaction.election_id,
             candidate_id: transaction.candidate_id,
+            user_id: transaction.user_id,
           })
         );
 

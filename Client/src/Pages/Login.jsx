@@ -6,15 +6,32 @@ import { ErrorMessage } from "../Components/Form/ErrorMessage";
 import { TransactionContext } from "../context/TransactionContext";
 import { useEffect } from "react";
 import { serverLink } from "../Data/Variables";
+import { ObjectGroupBy } from "../Data/Methods";
 import axios from "axios";
 
 const Login = () => {
   const location = useLocation();
   const data = location.state.info;
-  const { connectWallet, sendTransaction } = useContext(TransactionContext);
+  const { connectWallet, sendTransaction, getAllTransactions } =
+    useContext(TransactionContext);
 
   useEffect(() => {
     connectWallet();
+
+    async function getData() {
+      let link = serverLink + "election/" + data.election_id;
+      let res = await axios.get(link);
+      let election = res.data;
+
+      let transactions = await getAllTransactions();
+      var electionGroup = ObjectGroupBy(transactions, "election_id");
+      var candidate = ObjectGroupBy(electionGroup[election._id], "user_id");
+      if (candidate[data.user_id].length > 0) {
+        alert("You already Voted");
+        window.location.href = "/";
+      }
+    }
+    getData();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -25,9 +42,9 @@ const Login = () => {
       username,
       password,
     };
+    // axios.post(serverLink + "votingEmail", { id: data.user_id });
 
     let check = await axios.post(serverLink + "login", tmp);
-    console.log(check.status);
     if (check.status === 202) {
       alert("Invalid Password");
     }
@@ -42,7 +59,7 @@ const Login = () => {
 
       if (trans) {
         window.location.href = "/";
-        axios.post(serverLink + "votingEmail", data.user_id);
+        axios.post(serverLink + "votingEmail", { id: data.user_id });
         alert("Thank You For the Vote");
       } else {
         alert("There is Some Internal Error Try again later");
