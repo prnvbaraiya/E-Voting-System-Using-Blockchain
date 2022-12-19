@@ -24,22 +24,23 @@ router.post(
   candidateRegister.validator,
   candidateRegister.controller
 );
-router.get(
-  "/candidate/:username",
-  getCandidate.validator,
-  getCandidate.controller
-);
+router.get("/candidate/:username", getCandidate.controller);
+router.get("/candidate/delete/:id", getCandidate.delete);
+
 router.post(
   "/election/register",
   electionRegister.validator,
   electionRegister.controller
 );
-router.get("/election/:id", phase.getPhase);
 router.post("/phase/edit/:id", phase.controller);
 router.get("/candidates", candidates.controller);
 router.get("/voting/elections", elections.voting);
 router.get("/result/elections", elections.result);
+
 router.get("/elections", elections.controller);
+router.get("/election/:id", elections.getElection);
+router.get("/election/delete/:id", elections.delete);
+
 router.get("/users", users.controller);
 router.get("/user/:id", getUser.controller);
 router.get("/user/username/:id", getUser.ByName);

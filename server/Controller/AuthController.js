@@ -90,7 +90,7 @@ export const userDelete = {
   controller: async (req, res) => {
     try {
       const tmp = await User.findByIdAndDelete(req.params.userid);
-      return res.status(200).send("User Deleted Successfully");
+      return res.status(201).send("User Deleted Successfully");
     } catch (e) {
       console.log(e);
       return res.status(500).send("error");
@@ -102,7 +102,7 @@ export const getUser = {
   controller: async (req, res) => {
     try {
       const tmp = await User.findById(req.params.id);
-      return res.status(200).send(tmp);
+      return res.status(201).send(tmp);
     } catch (e) {
       console.log(e);
       return res.status(500).send("Error!");
@@ -111,7 +111,7 @@ export const getUser = {
   ByName: async (req, res) => {
     try {
       const tmp = await User.find({ username: req.params.id });
-      return res.status(200).send(tmp);
+      return res.status(201).send(tmp);
     } catch (e) {
       console.log(e);
       return res.status(500).send("Error!");
@@ -123,7 +123,7 @@ export const userAction = {
   delete: async (req, res) => {
     try {
       const tmp = await User.findByIdAndDelete(req.params.id);
-      return res.status(200).send(tmp);
+      return res.status(201).send(tmp);
     } catch (e) {
       console.log(e);
       return res.status(500).send("Error!");
@@ -140,7 +140,7 @@ export const userAction = {
         lname: req.body.lname,
       };
       const tmp = await User.findByIdAndUpdate(req.params.id, user);
-      return res.status(200).send("User Updated Successfully");
+      return res.status(201).send("User Updated Successfully");
     } catch (e) {
       console.log(e);
       return res.status(500).send("error");
@@ -176,15 +176,20 @@ export const candidates = {
 };
 
 export const getCandidate = {
-  validator: async (req, res, next) => {
-    next();
-  },
   controller: async (req, res) => {
     const data = await Candidate.findOne({ username: req.params.username });
     if (data == null) {
       return res.status(500).send("Candidate Not Found");
     }
     return res.status(201).send(data);
+  },
+  delete: async (req, res) => {
+    try {
+      const data = await Candidate.findByIdAndDelete(req.params.id);
+      return res.status(201).send("Candidate Deleted Successfully");
+    } catch (e) {
+      return res.status(500).send("Error");
+    }
   },
 };
 
@@ -194,11 +199,7 @@ export const phase = {
       currentPhase: req.body.currentPhase,
     });
     // console.log(data);
-    return res.status(200).send(data);
-  },
-  getPhase: async (req, res) => {
-    const data = await Election.findById(req.params.id);
-    return res.status(200).send(data);
+    return res.status(201).send(data);
   },
 };
 
@@ -230,6 +231,14 @@ export const elections = {
       return res.status(500).send("Error");
     }
   },
+  getElection: async (req, res) => {
+    try {
+      const data = await Election.findById(req.params.id);
+      return res.status(201).send(data);
+    } catch (e) {
+      return res.status(500).send("Error");
+    }
+  },
   voting: async (req, res) => {
     try {
       const tmp = await Election.find({ currentPhase: "voting" });
@@ -242,6 +251,14 @@ export const elections = {
     try {
       const tmp = await Election.find({ currentPhase: "result" });
       return res.status(201).send(tmp);
+    } catch (e) {
+      return res.status(500).send("Error");
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      const tmp = await Election.findByIdAndDelete(req.params.id);
+      return res.status(201).send("Election Deleted Successfully");
     } catch (e) {
       return res.status(500).send("Error");
     }

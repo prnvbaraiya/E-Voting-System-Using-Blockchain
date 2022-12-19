@@ -16,10 +16,8 @@ const AddElection = () => {
     e.preventDefault();
     const name = e.target.name.value;
     const tmp = [];
-    for (let i = 0; i < candidates.length; i++) {
-      tmp.push(candidates[i].username);
-    }
-    const data = { name, candidates: tmp };
+    const data = { name, candidates };
+    console.log(data);
 
     axios
       .post("http://localhost:1322/api/auth/election/register", data)

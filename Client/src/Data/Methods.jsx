@@ -72,7 +72,17 @@ export const getResult = async (transactions) => {
   const electionsD = res.data;
 
   var electionGroup = ObjectGroupBy(transactions, "election_id");
-  electionGroup = ObjectKeyReplace(electionGroup, electionsD, "_id", "name");
+  var newElectionGroup = [];
+  var k = 0;
+  Object.keys(electionGroup).forEach((ele) => {
+    for (let i = 0; i < electionsD.length; i++) {
+      if (electionsD[i]["_id"] == ele) {
+        newElectionGroup[ele] = electionGroup[ele];
+        break;
+      }
+    }
+  });
+  electionGroup = ObjectKeyReplace(newElectionGroup, electionsD, "_id", "name");
 
   const elections = Object.keys(electionGroup);
 

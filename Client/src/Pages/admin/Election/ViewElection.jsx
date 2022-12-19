@@ -6,8 +6,8 @@ import "../../../style.css";
 import axios from "axios";
 import { serverLink } from "../../../Data/Variables";
 import { Button } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Alert, Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const ViewElection = () => {
@@ -19,27 +19,12 @@ const ViewElection = () => {
     { field: "name", headerName: "Name", width: 220 },
     { field: "candidates", headerName: "Candidates", width: 220 },
     {
-      field: "edit",
-      headerName: "Edit",
-      width: 80,
-      renderCell: (params) => {
-        const link = "edit/" + params.row._id;
-        return (
-          <Link to={link}>
-            <Button>
-              <EditIcon />
-            </Button>
-          </Link>
-        );
-      },
-    },
-    {
       field: "delete",
       headerName: "Delete",
       width: 80,
       renderCell: (params) => {
         const deleteBtn = () => {
-          const link = serverLink + "user/delete/" + params.row._id;
+          const link = serverLink + "election/delete/" + params.row._id;
           axios.get(link);
           setOpen(true);
         };
@@ -52,6 +37,13 @@ const ViewElection = () => {
     },
   ];
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   useEffect(() => {
     async function getData() {
       let res = await axios.get("http://localhost:1322/api/auth/elections");
@@ -59,7 +51,7 @@ const ViewElection = () => {
       setData(users);
     }
     getData();
-  }, []);
+  }, [open]);
 
   return (
     <>
@@ -70,6 +62,11 @@ const ViewElection = () => {
             <BasicTable columns={columns} rows={data} />
           </Card>
         </div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            Election Deleted
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );

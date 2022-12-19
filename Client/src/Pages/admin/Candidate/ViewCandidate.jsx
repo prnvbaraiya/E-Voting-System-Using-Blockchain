@@ -4,15 +4,27 @@ import Card from "@mui/material/Card";
 import "../../../style.css";
 import axios from "axios";
 import ContentHeader from "../../../Components/ContentHeader";
+import { serverLink } from "../../../Data/Variables";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Button } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 
 const ViewCandidate = () => {
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const dateConverter = (date) => {
     date = new Date(date);
     return (
       date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate()
     );
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   const columnVisibilityModel = {
@@ -49,6 +61,24 @@ const ViewCandidate = () => {
       headerName: "Updated At",
       width: 120,
       valueGetter: (params) => dateConverter(params.row.updatedAt),
+      hide: true,
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 80,
+      renderCell: (params) => {
+        const deleteBtn = () => {
+          const link = serverLink + "candidate/delete/" + params.row._id;
+          axios.get(link);
+          setOpen(true);
+        };
+        return (
+          <Button onClick={deleteBtn}>
+            <DeleteIcon sx={{ color: "error.main" }} />
+          </Button>
+        );
+      },
     },
   ];
 
@@ -59,7 +89,7 @@ const ViewCandidate = () => {
       setData(users);
     }
     getData();
-  }, []);
+  }, [open]);
 
   return (
     <div className="admin__content">
@@ -74,6 +104,11 @@ const ViewCandidate = () => {
           />
         </Card>
       </div>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          Candidate Deleted
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

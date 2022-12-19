@@ -47,7 +47,7 @@ const EditPhase = () => {
     const link = serverLink + "phase/edit/" + data._id;
 
     axios.post(link, newData).then((res) => {
-      if (res.status === 200) {
+      if (res.status === 201) {
         navigate("/admin/phase");
       }
     });
