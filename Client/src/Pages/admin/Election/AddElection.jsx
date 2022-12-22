@@ -15,7 +15,6 @@ const AddElection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
-    const tmp = [];
     const data = { name, candidates };
     console.log(data);
 

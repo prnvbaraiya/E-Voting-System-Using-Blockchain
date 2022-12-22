@@ -73,10 +73,9 @@ export const getResult = async (transactions) => {
 
   var electionGroup = ObjectGroupBy(transactions, "election_id");
   var newElectionGroup = [];
-  var k = 0;
   Object.keys(electionGroup).forEach((ele) => {
     for (let i = 0; i < electionsD.length; i++) {
-      if (electionsD[i]["_id"] == ele) {
+      if (electionsD[i]["_id"] === ele) {
         newElectionGroup[ele] = electionGroup[ele];
         break;
       }

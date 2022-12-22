@@ -8,7 +8,6 @@ import { serverLink } from "../../../Data/Variables";
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Alert, Snackbar } from "@mui/material";
-import { Link } from "react-router-dom";
 
 const ViewElection = () => {
   const [data, setData] = useState([]);

@@ -76,7 +76,7 @@ export const login = {
 };
 
 export const users = {
-  controller: async (req, res) => {
+  getUsers: async (req, res) => {
     try {
       const tmp = await User.find();
       return res.status(201).send(tmp);
@@ -84,22 +84,7 @@ export const users = {
       return res.status(500).send("Error");
     }
   },
-};
-
-export const userDelete = {
-  controller: async (req, res) => {
-    try {
-      const tmp = await User.findByIdAndDelete(req.params.userid);
-      return res.status(201).send("User Deleted Successfully");
-    } catch (e) {
-      console.log(e);
-      return res.status(500).send("error");
-    }
-  },
-};
-
-export const getUser = {
-  controller: async (req, res) => {
+  getUser: async (req, res) => {
     try {
       const tmp = await User.findById(req.params.id);
       return res.status(201).send(tmp);
@@ -108,7 +93,7 @@ export const getUser = {
       return res.status(500).send("Error!");
     }
   },
-  ByName: async (req, res) => {
+  getUserByName: async (req, res) => {
     try {
       const tmp = await User.find({ username: req.params.id });
       return res.status(201).send(tmp);
@@ -117,9 +102,6 @@ export const getUser = {
       return res.status(500).send("Error!");
     }
   },
-};
-
-export const userAction = {
   delete: async (req, res) => {
     try {
       const tmp = await User.findByIdAndDelete(req.params.id);
@@ -169,14 +151,24 @@ export const candidateRegister = {
 };
 
 export const candidates = {
-  controller: async (req, res) => {
+  getCandidates: async (req, res) => {
     const data = await Candidate.find();
     return res.status(201).send(data);
   },
-};
-
-export const getCandidate = {
-  controller: async (req, res) => {
+  register: async (req, res) => {
+    const candidate = await Candidate.create({
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      dob: req.body.dob,
+      qualification: req.body.qualification,
+      join: req.body.join,
+      location: req.body.location,
+      description: req.body.description,
+    });
+    return res.status(201).send("Candidate Added");
+  },
+  getCandidate: async (req, res) => {
     const data = await Candidate.findOne({ username: req.params.username });
     if (data == null) {
       return res.status(500).send("Candidate Not Found");
@@ -205,11 +197,16 @@ export const phase = {
 
 //Election
 
-export const electionRegister = {
-  validator: async (req, res, next) => {
-    next();
-  },
+export const elections = {
   controller: async (req, res) => {
+    try {
+      const tmp = await Election.find();
+      return res.status(201).send(tmp);
+    } catch (e) {
+      return res.status(500).send("Error");
+    }
+  },
+  register: async (req, res) => {
     try {
       const newElection = await Election.create({
         name: req.body.name,
@@ -218,17 +215,6 @@ export const electionRegister = {
       return res.status(201).send("Election Successfully Added");
     } catch (e) {
       return res.status(500).send("Internal Error" + e);
-    }
-  },
-};
-
-export const elections = {
-  controller: async (req, res) => {
-    try {
-      const tmp = await Election.find();
-      return res.status(201).send(tmp);
-    } catch (e) {
-      return res.status(500).send("Error");
     }
   },
   getElection: async (req, res) => {
