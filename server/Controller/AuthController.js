@@ -281,13 +281,15 @@ export const a = {
     // return res.status(201).send("YAY PRabac");
 
     PythonShell.run(
-      "D:/study/sem-7/4IT31/Lab/admin-project/server/Controller/fr.py",
+      "D:/study/sem-7/03) 4IT31/Lab/admin-project/server/Controller/fr.py",
+
       null,
       function (err, result) {
-        // console.log(result);
-        // console.log("Error : ");
-        // console.log(err);
-        // console.log("Python script finished");
+        console.log(result);
+        console.log("Error : ");
+        console.log(err);
+        console.log("Python script finished");
+        console.log(result);
 
         return res.status(201).send(Object.values(result));
         // return res.status(201).send("YAY");
