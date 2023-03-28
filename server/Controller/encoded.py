@@ -3,7 +3,7 @@ import os
 import cv2
 import numpy as np
 
-path = "D:/study/sem-7/03) 4IT31/Lab/admin-project/Face"                   #Add Your url "D:/study/sem-7/4IT31/Lab/admin-project/Face"
+path = ""                   #Add Your url "D:/study/sem-7/4IT31/Lab/admin-project/Face"
 images = []
 classNames = mylist = os.listdir(path)
 classNames = [sub[ : -4] for sub in classNames]
