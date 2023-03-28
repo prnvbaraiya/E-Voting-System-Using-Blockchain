@@ -1,19 +1,41 @@
-Create Database in Mongodb with 3 collection candidates, elections, users For more details see /server/Models files After enter url in /server/.env line 2
-Go to mail and add 3rd Party verification and register app and get secreat key for sending automatic e-mails and add the email and password in /server/.env
+# E-Voting System using Blockchain
 
-For free etherum install Ganache and add /server/smart_contract/truffle-config.js to the account so you will get free 10 account with 100eth.
-Add chrome extension metamask for transaction.
-After that compile contract in /server/smart_contract using truffle.
-After compilation add transaction address in client/utils/Constand.js
-Also copy paste /server/smart_contract/build/contracts/Transaction.json to Client/utils/Transaction.json for abi value.
+This project is a web application that allows users to vote for their preferred candidates in an election. The project uses MongoDB for database management and has three collections for candidates, elections, and users.
 
-For python script install
-pip install opencv-python, numpy, os, face_recognition
-Add Photoes in /Face with same username in use.
-To Add Url for photoes in /Server/Controller/encoded.py line 6
+## Installation and Setup
 
-Now to run web-app:
+### MongoDB
 
-Setp 1: Go to Client Folder run command: npm run start.
-Step 2: Go to Server Folder run command: nodemon main.
-Step 3: And Your Site will be Start with in few minutes.
+To create the required database collections, refer to the `/server/Models` files after entering the URL in `/server/.env` line 2.
+
+### Third-Party Email Verification
+
+To enable automatic email sending, add third-party verification to your email and register the app to get a secret key. Then, add the email and password in `/server/.env`.
+
+For more detail: https://support.google.com/accounts/answer/185833
+
+### Ganache
+
+For free ethereum, install Ganache and add `/server/smart_contract/truffle-config.js` to your account to receive ten free accounts with 100 ETH.
+
+### Metamask
+
+Add the Metamask Chrome extension for transactions.
+
+### Contract Compilation
+
+After installing Ganache, compile the contract in `/server/smart_contract` using Truffle. Then, add the transaction address in `client/utils/Constant.js`. Also, copy `/server/smart_contract/build/contracts/Transaction.json` and paste it in `Client/utils/Transaction.json` for ABI value.
+
+To compile the contract, open the command prompt and navigate to the `smart_contract` directory using the command `cd smart_contract`. Then, run the command `truffle compile` and `truffle migrate`. Finally, follow the steps after compilation by copying and pasting the address and `transaction.json`.
+
+### Python Script
+
+To install the necessary packages for the Python script, use the command `pip install opencv-python, numpy, os, face_recognition`. Add photos to `/Face` with the same username in use. To add a URL for photos, go to `/Server/Controller/encoded.py` line 6.
+
+### Running the Web Application
+
+Follow the steps below to run the web application:
+
+1.  Go to the `Client` folder and run the command `npm run start`.
+2.  Go to the `Server` folder and run the command `nodemon main`.
+3.  Wait a few minutes for the site to start.
