@@ -22,16 +22,24 @@ const CandidateLayout = (props) => {
   const handleClick = async (id) => {
     setLoading(true);
     setMsg(" Accessing Camera");
-    let res = await axios.post(serverLink + "op");
-    let user = res.data;
+    try {
+      var res = await axios.post(serverLink + "op");
+    } catch (err) {
+      alert(err.response.data);
+      setLoading(false);
+      return;
+    }
+    let userName = res.data;
 
-    setMsg(user + " Detected");
+    setMsg(userName + " Detected");
 
-    res = await axios.get(serverLink + "user/username/" + user);
-    console.log(serverLink + "user/username/" + user);
-    user = res.data[0];
-
-    console.log(user);
+    res = await axios.get(serverLink + "user/username/" + userName);
+    let user = res.data[0];
+    if (!user) {
+      alert("User with " + userName + "username Not Found");
+      setLoading(false);
+      return;
+    }
     const tmp = {
       candidate_id: data._id,
       candidate_username: props.username,

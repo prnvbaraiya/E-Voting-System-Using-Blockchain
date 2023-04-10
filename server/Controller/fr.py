@@ -3,12 +3,17 @@ import face_recognition
 import numpy as np
 from encoded import encoded_face_train,classNames
 
-cap  = cv2.VideoCapture(0)      # Adjust 0 or 1 according to your camera input
+cap  = cv2.VideoCapture(1)      # Adjust 0 or 1 according to your camera input
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,1024)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT,768)
 flag = 0
 ans=[]
+index = 0
+
 while True:
+    index += 1
+    if(index == 500):       #Change according to your need
+        break
     success, img = cap.read()
     imgS = cv2.resize(img, (0,0), None, 0.25,0.25)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)

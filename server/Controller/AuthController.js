@@ -285,14 +285,19 @@ export const a = {
 
       null,
       function (err, result) {
-        console.log(result);
-        console.log("Error : ");
-        console.log(err);
-        console.log("Python script finished");
-        console.log(result);
+        // console.log(result);
+        // console.log("Error : ");
+        // console.log(err);
+        // console.log("Python script finished");
+        if (err) {
+          return res.status(500).send("Error While Running Python");
+        }
 
-        return res.status(201).send(Object.values(result));
-        // return res.status(201).send("YAY");
+        if (result) {
+          return res.status(201).send(result);
+        } else {
+          return res.status(500).send("No face Match Found");
+        }
       }
     );
   },
