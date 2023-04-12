@@ -1,8 +1,11 @@
+import { PythonShell } from "python-shell";
+import multer from "multer";
+import fs from "fs";
+import path from "path";
 import User from "../Models/User.js";
 import Election from "../Models/Election.js";
 import Candidate from "../Models/Candidate.js";
 import nodemailer from "nodemailer";
-import { PythonShell } from "python-shell";
 
 // http://localhost:5000/api/auth/register
 //
@@ -15,38 +18,46 @@ import { PythonShell } from "python-shell";
 //     }
 
 //User
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "Faces");
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.body.username + "." + file.originalname.split(".").pop());
+  },
+});
+var upload = multer({ storage: storage }).single("profile");
 export const register = {
   validator: async (req, res, next) => {
     next();
   },
   controller: async (req, res) => {
-    try {
-      const newUser = await User.create({
-        username: req.body.username,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        location: req.body.location,
-        password: req.body.password,
-        fname: req.body.fname,
-        lname: req.body.lname,
-      });
-
-      const mailContent = "Thank You For Joining the Voting System";
-
-      const mailSubject = "Welcome Mail";
-
-      const findUser = await User.findOne({ email: req.body.email });
-      //Try to use newUser
-
-      if (sendMail(mailContent, mailSubject, findUser)) {
-        return res.status(201).send("Email Sent");
-      } else {
-        return res.status(301).send("Email Sending Failed");
+    upload(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json(err);
+      } else if (err) {
+        return res.status(500).json(err);
       }
-    } catch (e) {
-      console.log(e);
-      return res.status(500).send("Registeration Failed");
-    }
+      try {
+        const newUser = await User.create(req.body);
+
+        const mailContent = "Thank You For Joining the Voting System";
+
+        const mailSubject = "Welcome Mail";
+
+        const findUser = await User.findOne({ email: req.body.email });
+        //Try to use newUser
+
+        if (sendMail(mailContent, mailSubject, findUser)) {
+          return res.status(201).send("Email Sent");
+        } else {
+          return res.status(301).send("Email Sending Failed");
+        }
+      } catch (e) {
+        console.log(e);
+        return res.status(500).send("Registeration Failed");
+      }
+    });
   },
 };
 
@@ -76,6 +87,19 @@ export const login = {
 };
 
 export const users = {
+  deleteUserProfile: (user) => {
+    const filePath = `Faces/${user.avatar}`;
+
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.log(err);
+        return false;
+      } else {
+        return true;
+      }
+    });
+    return true;
+  },
   getUsers: async (req, res) => {
     try {
       const tmp = await User.find();
@@ -105,7 +129,14 @@ export const users = {
   delete: async (req, res) => {
     try {
       const tmp = await User.findByIdAndDelete(req.params.id);
-      return res.status(201).send(tmp);
+      const isPhotoDeleted = users.deleteUserProfile(tmp);
+      if (isPhotoDeleted) {
+        return res
+          .status(201)
+          .send("Election and photo file deleted successfully");
+      } else {
+        return res.status(500).send("Error deleting photo file");
+      }
     } catch (e) {
       console.log(e);
       return res.status(500).send("Error!");
@@ -113,20 +144,32 @@ export const users = {
   },
 
   edit: async (req, res) => {
-    try {
-      const user = {
-        username: req.body.username,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        fname: req.body.fname,
-        lname: req.body.lname,
-      };
-      const tmp = await User.findByIdAndUpdate(req.params.id, user);
-      return res.status(201).send("User Updated Successfully");
-    } catch (e) {
-      console.log(e);
-      return res.status(500).send("error");
+    const tmp = await User.findById(req.params.id);
+    const isPhotoDeleted = users.deleteUserProfile(tmp);
+    if (!isPhotoDeleted) {
+      return res.status(500).send("Error updating User");
     }
+    upload(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json(err);
+      } else if (err) {
+        return res.status(500).json(err);
+      }
+      try {
+        const user = {
+          username: req.body.username,
+          email: req.body.email,
+          mobile: req.body.mobile,
+          fname: req.body.fname,
+          lname: req.body.lname,
+        };
+        const tmp = await User.findByIdAndUpdate(req.params.id, user);
+        return res.status(201).send("User Updated Successfully");
+      } catch (e) {
+        console.log(e);
+        return res.status(500).send("error");
+      }
+    });
   },
 };
 
@@ -278,28 +321,22 @@ const sendMail = async (mailContent, mailSubject, user) => {
 
 export const a = {
   sc: async (req, res) => {
-    // return res.status(201).send("YAY PRabac");
-
-    PythonShell.run(
-      "D:/study/sem-7/03) 4IT31/Lab/admin-project/server/Controller/fr.py",
-
-      null,
-      function (err, result) {
-        // console.log(result);
-        // console.log("Error : ");
-        // console.log(err);
-        // console.log("Python script finished");
-        if (err) {
-          return res.status(500).send("Error While Running Python");
-        }
-
-        if (result) {
-          return res.status(201).send(result);
-        } else {
-          return res.status(500).send("No face Match Found");
-        }
+    const filePath = path.resolve(process.cwd(), "Controller", "fr.py");
+    PythonShell.run(filePath, null, function (err, result) {
+      // console.log(result);
+      // console.log("Error : ");
+      // console.log(err);
+      // console.log("Python script finished");
+      if (err) {
+        return res.status(500).send("Error While Running Python");
       }
-    );
+
+      if (result) {
+        return res.status(201).send(result);
+      } else {
+        return res.status(500).send("No face Match Found");
+      }
+    });
   },
 };
 

@@ -21,9 +21,21 @@ const AddUser = () => {
     const mobile = e.target.mobile.value;
     const password = e.target.password.value;
     const location = locationData.country_name;
-    const data = { username, fname, lname, email, mobile, password, location };
+    const profile = e.target.profile.files[0];
+    const sendData = new FormData();
+    sendData.append("username", username);
+    sendData.append("fname", fname);
+    sendData.append("lname", lname);
+    sendData.append("email", email);
+    sendData.append("mobile", mobile);
+    sendData.append("password", password);
+    sendData.append("location", location);
+    sendData.append("profile", profile);
+    sendData.append("avatar", username + "." + profile.name.split(".").pop());
 
-    axios.post(serverLink + "register", data).then((res) => {
+    console.log(sendData);
+
+    axios.post(serverLink + "register", sendData).then((res) => {
       console.log(res.status);
       if (res.status === 201) {
         navigate("/admin/user");
@@ -96,6 +108,15 @@ const AddUser = () => {
                     type="password"
                     label="Confirm Password"
                     name="confirmpassword"
+                    fullWidth={true}
+                  />
+                  <ErrorMessage />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <input
+                    type="file"
+                    label="Upload Image"
+                    name="profile"
                     fullWidth={true}
                   />
                   <ErrorMessage />

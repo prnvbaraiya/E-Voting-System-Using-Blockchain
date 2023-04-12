@@ -29,12 +29,20 @@ const ViewUser = () => {
     const fname = e.target.fname.value;
     const lname = e.target.lname.value;
     const mobile = e.target.mobile.value;
-    const newData = { username, fname, lname, email, mobile };
+    const profile = e.target.profile.files[0];
+    const sendData = new FormData();
+    sendData.append("username", username);
+    sendData.append("fname", fname);
+    sendData.append("lname", lname);
+    sendData.append("email", email);
+    sendData.append("mobile", mobile);
+    sendData.append("profile", profile);
+    sendData.append("avatar", username + "." + profile.name.split(".").pop());
 
     const link = serverLink + "user/edit/" + data._id;
 
-    axios.post(link, newData).then((res) => {
-      if (res.status === 200) {
+    axios.post(link, sendData).then((res) => {
+      if (res.status === 201) {
         navigate("/admin/user");
       }
     });
@@ -94,6 +102,10 @@ const ViewUser = () => {
                       fullWidth={true}
                       value={data.mobile}
                     />
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <input type="file" label="Upload Image" name="profile" />
+                    <ErrorMessage />
                   </Grid>
                 </Grid>
                 <Box mt={3}>
