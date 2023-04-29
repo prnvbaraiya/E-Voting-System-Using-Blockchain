@@ -62,15 +62,17 @@ export const TransactionProvider = ({ children }) => {
 
         console.log(transactionCount);
 
-        return true;
+        return { valid: true, mess: "Transaction Successfull" };
       } else {
         console.log("No ethereum object");
-        return false;
+        return { valid: false, mess: "No ethereum object" };
       }
     } catch (error) {
-      console.log(error);
-
-      throw new Error("No ethereum object");
+      if (error.code === "ACTION_REJECTED") {
+        return { valid: false, mess: "User Rejected Transaction" };
+      } else {
+        return { valid: false, mess: "Internal Send Transaction Error" };
+      }
     }
   };
 

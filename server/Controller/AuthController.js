@@ -79,7 +79,7 @@ export const login = {
         return res.status(202).send("Invalid Password");
       }
 
-      return res.status(201).send("Suucess");
+      return res.status(201).send(findUser);
     } catch (e) {
       return res.status(500).send("Server Error");
     }

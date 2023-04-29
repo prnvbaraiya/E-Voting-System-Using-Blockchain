@@ -1,11 +1,11 @@
 import { Button, Typography, Box, Grid, Paper } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import InputField from "../Components/Form/InputField";
 import { ErrorMessage } from "../Components/Form/ErrorMessage";
 import { TransactionContext } from "../context/TransactionContext";
 import { useEffect } from "react";
-import { serverLink } from "../Data/Variables";
+import { serverLink, isFaceRecognitionEnable } from "../Data/Variables";
 import { ObjectGroupBy } from "../Data/Methods";
 import axios from "axios";
 
@@ -14,25 +14,30 @@ const Login = () => {
   const data = location.state.info;
   const { connectWallet, sendTransaction, getAllTransactions } =
     useContext(TransactionContext);
+  const [election, setElection] = useState({});
 
   useEffect(() => {
     connectWallet();
 
     async function getData() {
+      console.log(data);
       let link = serverLink + "election/" + data.election_id;
       let res = await axios.get(link);
       let election = res.data;
-
-      let transactions = await getAllTransactions();
-      var electionGroup = ObjectGroupBy(transactions, "election_id");
-      var candidate = ObjectGroupBy(electionGroup[election._id], "user_id");
-      if (candidate[data.user_id].length > 0) {
-        alert("You already Voted");
-        window.location.href = "/";
-      }
+      setElection(election);
     }
     getData();
   }, []);
+
+  const checkDuplicateVote = async (user_id) => {
+    let transactions = await getAllTransactions();
+    var electionGroup = ObjectGroupBy(transactions, "election_id");
+    var candidate = ObjectGroupBy(electionGroup[election._id], "user_id");
+    if (candidate[user_id].length > 0) {
+      alert("You already Voted");
+      window.location.href = "/";
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,23 +51,23 @@ const Login = () => {
 
     let check = await axios.post(serverLink + "login", tmp);
     if (check.status === 202) {
-      alert("Invalid Password");
-    }
-    if (check.status === 201) {
+      alert(check.data);
+    } else if (check.status === 201) {
       await connectWallet();
       let trans = false;
+      checkDuplicateVote(check.data._id);
       trans = await sendTransaction(
         data.election_id,
         data.candidate_id,
-        data.user_id
+        check.data._id
       );
 
-      if (trans) {
+      if (trans.valid) {
         window.location.href = "/";
-        axios.post(serverLink + "votingEmail", { id: data.user_id });
+        axios.post(serverLink + "votingEmail", { id: check.data._id });
         alert("Thank You For the Vote");
       } else {
-        alert("There is Some Internal Error Try again later");
+        alert(trans.mess);
       }
     }
   };
@@ -84,7 +89,7 @@ const Login = () => {
                     fullWidth={true}
                     value={data.user_username}
                     id="outlined-disabled"
-                    disabled
+                    disabled={isFaceRecognitionEnable}
                   />
                   <ErrorMessage />
                 </Grid>

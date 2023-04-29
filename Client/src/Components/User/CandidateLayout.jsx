@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { Avatar, Backdrop, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { stringToAv, stringToColor } from "../../Data/Methods";
-import { serverLink } from "../../Data/Variables";
+import { serverLink, isFaceRecognitionEnable } from "../../Data/Variables";
 import { useNavigate } from "react-router-dom";
 
 const CandidateLayout = (props) => {
@@ -21,37 +21,46 @@ const CandidateLayout = (props) => {
 
   const handleClick = async (id) => {
     setLoading(true);
-    setMsg(" Accessing Camera");
-    try {
-      var res = await axios.post(serverLink + "op");
-    } catch (err) {
-      alert(err.response.data);
+    if (isFaceRecognitionEnable) {
+      setMsg(" Accessing Camera");
+      try {
+        var res = await axios.post(serverLink + "op");
+      } catch (err) {
+        alert(err.response.data);
+        setLoading(false);
+        return;
+      }
+      let userName = res.data;
+
+      setMsg(userName + " Detected");
+
+      res = await axios.get(serverLink + "user/username/" + userName);
+      let user = res.data[0];
+      if (!user) {
+        alert("User with " + userName + "username Not Found");
+        setLoading(false);
+        return;
+      }
+      const tmp = {
+        candidate_id: data._id,
+        candidate_username: props.username,
+        election_id: props.id,
+        user_id: user._id,
+        user_username: user.username,
+      };
+
+      setMsg("");
       setLoading(false);
-      return;
+
+      navigate(link, { state: { info: tmp } });
+    } else {
+      const sendingData = {
+        candidate_id: data._id,
+        candidate_username: props.username,
+        election_id: props.id,
+      };
+      navigate(link, { state: { info: sendingData } });
     }
-    let userName = res.data;
-
-    setMsg(userName + " Detected");
-
-    res = await axios.get(serverLink + "user/username/" + userName);
-    let user = res.data[0];
-    if (!user) {
-      alert("User with " + userName + "username Not Found");
-      setLoading(false);
-      return;
-    }
-    const tmp = {
-      candidate_id: data._id,
-      candidate_username: props.username,
-      election_id: props.id,
-      user_id: user._id,
-      user_username: user.username,
-    };
-
-    setMsg("");
-    setLoading(false);
-
-    navigate(link, { state: { info: tmp } });
   };
 
   useEffect(() => {
